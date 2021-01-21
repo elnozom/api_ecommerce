@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware('cors:api')->group(function (){
+    
 Route::middleware('guest:api')->group(function () {
     Route::post('/login','AuthController@login');
 	Route::post('/register','AuthController@register');
@@ -57,4 +59,5 @@ Route::middleware('auth:api')->group(function () {
     });
 	
 	// Route::delete('/address/{id}/main','AddressController@setMain')->name('api.address.main');
+    });
 });

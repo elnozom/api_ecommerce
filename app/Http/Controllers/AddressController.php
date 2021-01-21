@@ -37,13 +37,13 @@ class AddressController extends Controller
         if($currAddress->AccSerial !== $request->user()->id){
             return response()->json("this address dosen't belong to this user" , 400);
         }
-        $address = $this->valiateAddressReq($request);
+        $address = $this->validateReq($request);
         if(gettype($address) != 'array'){
             return $address;
         }
         $address = Address::where('id', $id)->update($address);
         $q = "UPDATE OlAddresses SET id = $currAddress->id, BuildingNo = $currAddress->BuildingNo, RowNo = $currAddress->RowNo, FlatNo = $currAddress->FlatNo, Street = $currAddress->Street, Remark = $currAddress->Remark, Main = $currAddress->Main, AreaNo = $currAddress->AreaNo, AccSerial = $currAddress->AccSerial, PhSerial = $currAddress->PhSerial WHERE id = $id ";
-        dd($q);
+        ;
         DB::insert('call SetQuery(?)',[$q]);
 
         return response()->json(['success' => true , 'message' => 'address updated successfully']);

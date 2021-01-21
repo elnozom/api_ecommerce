@@ -13,37 +13,22 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $user = User::where('email' , $request->email)->first();
-        if(!$user){
-              return response()->json("this email is not found",400);
-
+        $data = $this->catchUserFromReq($request);
+        if(gettype($data) != 'array'){
+            return $data;
         }
-        $rules = [
-            'email' => 'required|email|max:255',
-        'password' => 'required|max:255',
-        ];
+        $rules = $data['rules'];
+        $user = $data['user'];
+
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
         if (!Hash::check($request->password, $user->password)) {
             return response()->json("This password dosen't belong to this email",400);
-
         }
-
-        $passwordGrantClient = Client::find(env('PASSPORT_CLIENT_ID', 2));
-        
-        // dd($passwordGrantClient);
-        $data = [
-            'grant_type' => 'password',
-            'client_id' => $passwordGrantClient->id,
-            'client_secret' => $passwordGrantClient->secret,
-            'username' => $request->email,
-            'password' => $request->password,
-            'scope' => '*',
-        ];
-
-        $tokenRequest =  Request::create('oauth/token' , 'post', $data );
+     
+        $tokenRequest = $this->loginAction($user , $request->password);
         
         
         return app()->handle($tokenRequest);
@@ -54,7 +39,9 @@ class AuthController extends Controller
     {
 
         if(User::where('email' , $request->email)->count() > 0){
-            return  response()->json(['success' => 'false' , 'message' => 'this email is already exists']);
+            return response()->json("this email is already exists",400);
+           
+            
         }
         $rules = ['email' => 'required|email|max:255',
         'password' => 'required|max:255',
@@ -78,12 +65,53 @@ class AuthController extends Controller
             'AccSerial' =>$user->id,
         ];
         $this->attachPhone($phoneRequest);
-        if(!$user) return  response()->json(['success' => 'false' , 'message' => 'registration_faild']);
-        return response()->json(['success' => 'true' , 'message' => 'registration_success']);
+        
+        if(!$user) return   response()->json("thisregistration_faild",400);
+        $tokenRequest = $this->loginAction($user , $request->password);
+        
+        
+        return app()->handle($tokenRequest);
     }
     protected function attachPhone($request){
         $phone = Phone::create($request);
         $q = "INSERT INTO OlPhones(PhSerial,AccSerial ,`Phone`) VALUES($phone->id , $phone->AccSerial , $phone->phone)";
         DB::insert('call SetQuery(?)',[$q]);
+    }
+    protected function catchUserFromReq($request){
+        $rules = [
+            'password' => 'required|max:255',
+        ];
+        if(is_numeric($request->emailOrPhone)){
+            $rules['emailOrPhone'] = 'required|max:255';
+            $phone = Phone::where('Phone' , $request->emailOrPhone)->first();
+            if(!$phone){
+                return response()->json("this phone is not found",400);
+            }
+            $user = $phone->user;
+        }else{
+            $user = User::where('email' , $request->emailOrPhone)->first();
+            if(!$user){
+                return response()->json("this email is not found",400);
+            }
+        }
+
+        return ['user' => $user , 'rules' => $rules];
+       
+    }
+
+    protected function loginAction($user , $passwrod){
+        $passwordGrantClient = Client::find(env('PASSPORT_CLIENT_ID', 2));
+        
+        // dd($passwordGrantClient);
+        $data = [
+            'grant_type' => 'password',
+            'client_id' => $passwordGrantClient->id,
+            'client_secret' => $passwordGrantClient->secret,
+            'username' => $user->email,
+            'password' => $passwrod,
+            'scope' => '*',
+        ];
+
+        return  Request::create('oauth/token' , 'post', $data );
     }
 }
