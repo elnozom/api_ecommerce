@@ -17,6 +17,20 @@ class Area extends Model
     {
         return $query->where('SectionNo' , null);
     }
+    public function children()
+    {
+        return $this->hasMany(self::class, 'SectionNo');
+    }
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'SectionNo');
+    }
+
+    public function grandchildren()
+    {
+        return $this->children()->with('grandchildren');
+    }
+
 
 
 }

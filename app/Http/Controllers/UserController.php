@@ -87,7 +87,7 @@ class UserController extends Controller
     public function AddPhone(Request $request)
     {
         $rules = [
-            'phone' => 'required|unique:phones|max:255',      
+            'phone' => 'required|digits_between:11,14|unique:phones|max:255',      
         ];
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()){

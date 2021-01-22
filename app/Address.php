@@ -12,4 +12,8 @@ class Address extends Model
     {
         return $this->hasOne(Phone::class , 'PhSerial' , 'id');
     }
+    public function area()
+    {
+        return $this->belongsTo(Area::class , 'AreaNo' , 'id');
+    }
 }

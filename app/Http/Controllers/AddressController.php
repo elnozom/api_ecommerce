@@ -62,12 +62,20 @@ class AddressController extends Controller
     public function find(Request $request , $id){
         // dd('hu');
         $address = Address::find($id);
+    
         if(!$address){
             return response()->json("this address dosn't exist",400);
         }
         if($address->AccSerial !== $request->user()->id){
             return response()->json("this address dosn't belong to this user",403);
         }
+        $area = $address->area;
+        $section = $area->parent;
+        $address->section = $section->id;
+        $address->areas = $section->children;
+        
+        
+        // dd($address);
         return $address;
 
     }
