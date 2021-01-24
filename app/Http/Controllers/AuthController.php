@@ -72,6 +72,16 @@ class AuthController extends Controller
         
         return app()->handle($tokenRequest);
     }
+
+    public function logout()
+    {
+        auth()->user()->tokens->each(function ($token, $key){
+            $token->delete();
+        });
+
+        return response()->json("logged out successfully",200);
+
+    }
     protected function attachPhone($request){
         $phone = Phone::create($request);
         $q = "INSERT INTO OlPhones(PhSerial,AccSerial ,`Phone`) VALUES($phone->id , $phone->AccSerial , $phone->phone)";

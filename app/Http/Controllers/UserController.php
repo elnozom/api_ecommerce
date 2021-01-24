@@ -17,7 +17,7 @@ class UserController extends Controller
         $user->phones = $phones;
         // dd($request->user()->phones->pluck('Phone')->flatten());
 
-        return $user;
+        return ['user' => $user];
     }
     public function update(Request $request)
     {

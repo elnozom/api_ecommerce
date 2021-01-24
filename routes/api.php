@@ -11,6 +11,7 @@ Route::middleware('guest:api')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
+	Route::post('/logout','AuthController@logout');
     Route::prefix('address')->group(function () {
 		Route::post('/','AddressController@create');
 		Route::put('/{id}','AddressController@update');
