@@ -15,10 +15,13 @@ class CreateCartTable extends Migration
     {
         Schema::create('cart', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedFloat('qty');
-            $table->softDeletes();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->foreign('address_id')->references('id')->on('addresses');
+            $table->unsignedFloat('shipping')->nullable();
+            $table->string('discount_code')->nullable();
+            $table->dateTime('closed_at')->nullable();
             $table->timestamps();
         });
     }

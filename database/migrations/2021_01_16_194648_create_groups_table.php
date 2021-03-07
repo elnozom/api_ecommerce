@@ -16,9 +16,12 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('GroupName');
+            $table->string('image')->nullable();
             $table->boolean('ByWeight')->default(false);
             $table->unsignedBigInteger('FatherCode')->nullable();
             $table->boolean('Active')->default(true);
+            $table->boolean('Featured')->default(false);
+            $table->boolean('Home')->default(false);
             $table->foreign('FatherCode')->references('id')->on('groups');
             $table->timestamps();
         });

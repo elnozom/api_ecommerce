@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -72,9 +73,23 @@ class GroupController extends Controller
     }
     public function list(Request $request)
     {
-        $groups = Group::select('GroupName','ByWeight')->active();
+        $groups = Group::select('id' , 'GroupName','ByWeight' , 'image')->active();
+        if($request->featured){
+            return $groups->where('Featured' , true)->get();
+        }
+        if($request->home){
+            $groups = $groups->where('Home' , true)->with('products')->get();
+            
+            return $groups;
+        }
         if($request->FatherCode){
-            return $groups->where('FatherCode' , $request->FatherCode)->get();
+            $isNull = count($groups->where('FatherCode' , $request->FatherCode)->get()) === 0;
+            // dd(!$isNull);
+            if(!$isNull){
+                return $groups->where('FatherCode' ,  $request->FatherCode)->get();
+            } else {
+                return Group::select('id' , 'GroupName','ByWeight' , 'image')->active()->main()->get();
+            }
         }
         return $groups->main()->get();
     }
@@ -102,4 +117,29 @@ class GroupController extends Controller
         }
         return $request->all();
     }
+    public function listWithChildren()
+    {
+        $groups = Group::select('id' ,'GroupName')->main()->with('groups')->get();
+        return $groups;
+    }
+
+    public function listThreeLayers()
+    {
+        $groups = Group::select('id' ,'GroupName')->main()->with('groups')->get();
+        // $groups = DB::select("SELECT id , GroupName , FatherCode FROM groups")
+        foreach($groups as $group){
+            if(isset($group->children) && count($group->children) > 0){
+                foreach ($group->children as $sub){
+                    if(isset($group->children) && count($sub->children) > 0){
+                        $group['hasThree'] = true;
+                        $sub['children'] = $sub->children;
+                    } else {
+                        $group['hasTwo'] = true;
+                    }
+                }
+            }
+        }
+        return $groups;
+    }
+
 }

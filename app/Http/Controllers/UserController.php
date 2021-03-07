@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
+use App\Coupon;
 use App\Phone;
 use App\User;
 use Illuminate\Http\Request;

@@ -11,8 +11,20 @@ Route::middleware('guest:api')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-	Route::post('/logout','AuthController@logout');
-    Route::prefix('address')->group(function () {
+	Route::prefix('user')->group(function () {
+		Route::post('/phone','UserController@AddPhone');
+		Route::put('/phone/{id}','UserController@UpdatePhone');
+		Route::delete('/phone/{id}','UserController@DeletePhone');
+		Route::put('/','UserController@update');
+		Route::get('/','UserController@get');
+	});
+	
+	
+	// Route::delete('/address/{id}/main','AddressController@setMain')->name('api.address.main');
+    });
+});
+Route::post('/logout','AuthController@logout');
+    Route::middleware('auth:api')->prefix('address')->group(function () {
 		Route::post('/','AddressController@create');
 		Route::put('/{id}','AddressController@update');
 		Route::delete('/{id}','AddressController@delete');
@@ -25,13 +37,6 @@ Route::middleware('auth:api')->group(function () {
 		Route::delete('/{id}','AreaController@delete');
 		Route::get('/list','AreaController@list');
 	});
-	Route::prefix('user')->group(function () {
-		Route::post('/phone','UserController@AddPhone');
-		Route::put('/phone/{id}','UserController@UpdatePhone');
-		Route::delete('/phone/{id}','UserController@DeletePhone');
-		Route::put('/','UserController@update');
-		Route::get('/','UserController@get');
-	});
 	Route::prefix('group')->group(function () {
 		Route::post('/','GroupController@create');
 		Route::put('/{id}','GroupController@update');
@@ -40,6 +45,8 @@ Route::middleware('auth:api')->group(function () {
 		Route::delete('/{id}','GroupController@delete');
 		Route::get('/find/{id}','GroupController@find');
 		Route::get('/list','GroupController@list');
+		Route::get('/two-layers','GroupController@listWithChildren');
+    	Route::get('/three-layers','GroupController@listThreeLayers');
 	});
 	Route::prefix('product')->group(function () {
 		Route::post('/','ProductController@create');
@@ -49,16 +56,21 @@ Route::middleware('auth:api')->group(function () {
 		Route::get('/','ProductController@list');
 	});
 
-	Route::prefix('cart')->group(function(){
-        Route::get('/count','CartController@getCartItemsCount');
-        Route::get('/','CartController@getCartItems');
-        Route::post('/','CartController@SetCartItem');
-        Route::delete('/{id}','CartController@DeleteCartItem');
+	Route::prefix('cart')->middleware('auth:api')->group(function(){
+        Route::get('/','CartController@get');
+        Route::post('/','CartController@create');
+        Route::delete('/{id}','CartController@delete');
         Route::put('/{id}','CartController@update');
-        Route::delete('/decrease/{id}','CartController@DecreaseCartItem');
+    	Route::post('/coupon','CartController@applyCoupon');
+    	Route::put('/address/{id}','CartController@applyAddress');
+    	Route::post('/checkout','CartController@checkout');
+	// Route::delete('/decrease/{id}','CartController@DecreaseCartItem');
         
     });
-	
-	// Route::delete('/address/{id}/main','AddressController@setMain')->name('api.address.main');
+	Route::prefix('wishlist')->middleware('auth:api')->group(function(){
+        Route::get('/','WishlistController@get');
+        Route::post('/','WishlistController@create');
+        Route::delete('/{id}','WishlistController@delete');
+	// Route::delete('/decrease/{id}','CartController@DecreaseCartItem');
+        
     });
-});

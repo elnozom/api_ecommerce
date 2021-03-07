@@ -12,6 +12,7 @@ class Group extends Model
         return $query->where('Active' , true);
     }
 
+
     public function scopeMain($query)
     {
         return $query->where('FatherCode' , null);
@@ -20,5 +21,9 @@ class Group extends Model
     public function groups()
     {
         return $this->hasMany(Group::class , 'FatherCode' , 'id');
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class , 'GroupCode' , 'id');
     }
 }
