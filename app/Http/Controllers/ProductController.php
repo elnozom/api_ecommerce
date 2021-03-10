@@ -27,9 +27,10 @@ class ProductController extends Controller
     {
 
     }
-    public function find(Request $request)
+    public function find($id)
     {
-
+        $product = Product::find($id);
+        return response()->json($product);
     }
     public function list(ListProductRequest $request)
     {

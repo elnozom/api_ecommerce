@@ -13,6 +13,7 @@ Route::middleware('guest:api')->group(function () {
 Route::middleware('auth:api')->group(function () {
 	Route::prefix('user')->group(function () {
 		Route::post('/phone','UserController@AddPhone');
+		Route::get('/orders','UserController@GetOrders');
 		Route::put('/phone/{id}','UserController@UpdatePhone');
 		Route::delete('/phone/{id}','UserController@DeletePhone');
 		Route::put('/','UserController@update');

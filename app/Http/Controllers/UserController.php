@@ -21,6 +21,47 @@ class UserController extends Controller
 
         return ['user' => $user];
     }
+    public function GetOrders(Request $request)
+    {
+        $id = $request->user()->id;
+        $orders = Cart::where('user_id' , $id)->orders()->get();
+        foreach($orders as $order){
+            $products = DB::select(
+                "SELECT 
+                    p.* ,
+                    cp.price ,
+                    cp.cart_id ,
+                    cp.qty 
+                    FROM cart_product cp 
+                    JOIN products p 
+                        ON cp.product_id = p.id
+                    WHERE cp.cart_id = ?
+                    AND cp.deleted_at IS NULL" , [$order->id]);
+    // dd($products);
+    
+            if(count($products) > 0){
+                $order->products = $products;
+                $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? AND deleted_at IS NULL" ,[ $order->id])[0]->subtotal;
+                $discountVal = 0;
+                if($order->discount_code != null){
+                    $coupon = Coupon::where('code' , $order->discount_code)->first();
+                    // dd($coupon->type);
+                    if($coupon->type == 'fixed'){
+                        $discountVal = $coupon->value;
+                    } else {
+                        $order->percentOff = $coupon->value;
+                        $discountVal =  $coupon->value * $subtotal / 100;
+                    }
+                    $order->discounVal = $discountVal;
+                }
+
+                $order->subtotal = $subtotal;
+                $order->total = $subtotal - $discountVal +  $order->shipping;
+            }
+        }
+
+        return response()->json($orders);
+    }
     public function update(Request $request)
     {
         $id = $request->user()->id;

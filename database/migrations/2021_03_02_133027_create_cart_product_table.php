@@ -23,7 +23,7 @@ class CreateCartProductTable extends Migration
 
 
             $table->unsignedFloat('price');
-            $table->unsignedTinyInteger('qty')->default(1);
+            $table->unsignedFloat('qty')->default(1);
             //  $table->unsignedFloat('old_price')->nullable();
             $table->softDeletes();
             $table->timestamps();

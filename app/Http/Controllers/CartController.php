@@ -19,11 +19,7 @@ class CartController extends Controller
     public function get(Request $request)
     {
         $id = $request->user()->id;
-        if($request->orders){
-            $cart = Cart::where('user_id' , $id)->orders()->first();
-        } else{
-            $cart = Cart::where('user_id' , $id)->cart()->first();
-        }
+        $cart = Cart::where('user_id' , $id)->cart()->first();
         if($cart == null){
             return response()->json(['products' => []]);
         }
@@ -32,15 +28,18 @@ class CartController extends Controller
                     "SELECT 
                         p.* ,
                         cp.price ,
+                        cp.cart_id ,
                         cp.qty 
                         FROM cart_product cp 
                         JOIN products p 
                             ON cp.product_id = p.id
-                        WHERE cp.cart_id = ? AND deleted_at = NULL " , [$cart->id]);
+                        WHERE cp.cart_id = ?
+                        AND cp.deleted_at IS NULL" , [$cart->id]);
+        // dd($products);
         
         if(count($products) > 0){
             $cart->products = $products;
-            $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? " ,[ $cart->id])[0]->subtotal;
+            $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? AND deleted_at IS NULL" ,[ $cart->id])[0]->subtotal;
             $discountVal = 0;
             if($cart->discount_code != null){
                 $coupon = Coupon::where('code' , $cart->discount_code)->first();
@@ -70,9 +69,11 @@ class CartController extends Controller
         if($cart == null){
             return response()->json('no items on your cart' ,400);
         }
+        if($cart->address_id == null){
+            return response()->json('Please select address' ,400);
+        }
         $cart->closed_at = now();
         $cart->save();
-        return response()->json('order placed successfully');
     }
     public function applyCoupon(Request $request){
         $id = $request->user()->id;
@@ -126,6 +127,7 @@ class CartController extends Controller
         if($cart == null){
             $cart = $this->init($id);
         }
+        // dd($cart);
         $this->setProducts($cart->id , $request->product , $request->qty);
         return response()->json(['success' => 'true' , 'message' => 'added to cart successfully']);
     }
@@ -136,12 +138,12 @@ class CartController extends Controller
     private function setProducts($cart  , $product , $qty ){
         // dd($product);
         $qty = $qty == null ? 1 : $qty;
-        $rec = CartProduct::where('product_id' , $product)->where('cart_id' , $cart)->first();
-        if($rec != null){
-            $rec->qty = $rec->qty + 1;
-            $rec->save();
-            return ;
-        }
+        // $rec = CartProduct::where('product_id' , $product)->where('cart_id' , $cart)->first();
+        // if($rec != null){
+        //     $rec->qty = $rec->qty + 1;
+        //     $rec->save();
+        //     return ;
+        // }
         $product = Product::where('id' , $product)->first();
         $rec = [
             "cart_id" => $cart,
@@ -171,7 +173,7 @@ class CartController extends Controller
     public function update($id , Request $request)
     {
         $userId = $request->user()->id;
-        $cart = Cart::where('user_id' , $userId)->first();
+        $cart = Cart::where('user_id' , $userId)->cart()->first();
         $cp = CartProduct::where('cart_id' , $cart->id)->where('product_id' , $id)->first();
         if($cp == null){
             return response()->json(['message' => 'your cart dosen\'t contain this product'] , 400);
