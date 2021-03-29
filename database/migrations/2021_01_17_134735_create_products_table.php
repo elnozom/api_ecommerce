@@ -16,9 +16,12 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('ProductCode')->unique()->nullable();
+            $table->string('ItemNameEn');
             $table->string('ItemName');
             $table->string('ItemImage');
             $table->boolean('ByWeight')->default(false);
+            $table->boolean('latest')->default(false);
+            $table->boolean('featured')->default(false);
             $table->unsignedFloat('vat')->default(0);
             $table->unsignedFloat('POSTP');
             $table->unsignedFloat('POSPP');

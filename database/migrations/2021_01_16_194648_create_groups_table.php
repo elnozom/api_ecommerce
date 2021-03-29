@@ -15,6 +15,7 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->string('GroupNameEn');
             $table->string('GroupName');
             $table->string('image')->nullable();
             $table->boolean('ByWeight')->default(false);
