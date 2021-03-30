@@ -35,16 +35,6 @@ class ProductController extends Controller
     public function list(ListProductRequest $request)
     {
         // dd((int)$request->byWeight);
-        if($request->key){
-            if($request->key == 'featured'){
-                $products = Product::where('featured' , 1)->get();
-            } else if($request->key == 'latest'){
-                $products = Product::where('latest' , 1)->get();
-            } else {
-                return [];
-            }
-            return $products;
-        }
         $pipeline = app(Pipeline::class)->send(Product::query())->through([
             ByWeight::class,
             PriceFrom::class,
@@ -55,5 +45,18 @@ class ProductController extends Controller
 
         ])->thenReturn();
         return $pipeline->paginate(9); 
+    }
+
+
+    public function listHome($key)
+    {
+        if($key == 'featured'){
+            $products = Product::where('featured' , 1)->get();
+        } else if($key == 'latest'){
+            $products = Product::where('latest' , 1)->get();
+        } else {
+            return [];
+        }
+        return $products;
     }
 }
