@@ -64,10 +64,6 @@ class AreaSeeder extends Seeder
         foreach($areas as $area)
         {
             $area = Area::create($area);
-            $q = "INSERT INTO areas(AreaNo , AreaName , DeliveryServiceTotal , PostalCode , AvilableFrom , AvilableTo , `Apply` , SectionNo) VALUES($area->id , $area->AreaName , $area->DeliveryServiceTotal , $area->PostalCode , $area->AvilableFrom , $area->AvilableTo , $area->Apply , $area->SectionNo);";
-            DB::insert('call SetQuery(?)',[$q]);
-
-            
         }
 
     }

@@ -21,10 +21,6 @@ class UserSeeder extends Seeder
             'Phone' =>$phone,
             'AccSerial' =>$user->id,
         ];
-        $q = "INSERT INTO OlAccounts(AccSerial ,`Name` ,Email ,`Password`) VALUES($user->id , $user->name , $user->email , $user->password)";
-        DB::insert('call SetQuery(?)',[$q]);
         $phone = Phone::create($phoneRecord);
-        $q = "INSERT INTO OlPhones(PhSerial,AccSerial ,`Phone`) VALUES($phone->id , $phone->AccSerial , $phone->phone)";
-        DB::insert('call SetQuery(?)',[$q]);
     }
 }
