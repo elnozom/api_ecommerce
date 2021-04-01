@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
+use App\CartProduct;
 use App\Http\Requests\ListProductRequest;
 use App\Product;
 use App\QueryFilters\ByWeight;
@@ -44,11 +46,17 @@ class ProductController extends Controller
             GroupCode::class,
 
         ])->thenReturn();
-        return $pipeline->paginate(9); 
+        $products = $pipeline->paginate(9);
+        $user = $request->user('api');
+        if(isset($user->id)){
+            return $this->inCart($user->id , $products); 
+        }
+        return $products;
     }
 
+    
 
-    public function listHome($key)
+    public function listHome($key , Request $request)
     {
         if($key == 'featured'){
             $products = Product::where('featured' , 1)->get();
@@ -57,6 +65,24 @@ class ProductController extends Controller
         } else {
             return [];
         }
+        $user = $request->user('api');
+        if(isset($user->id)){
+            return $this->inCart($user->id , $products); 
+        }
+        return $products; 
+    }
+
+    protected function inCart($user , $products)
+    {
+        $cart = Cart::cart()->select(['id'])->where('user_id' , $user)->first();
+        if($cart !== null){
+            foreach($products as $product){
+                // dd($product);
+                $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first() !== null;
+                $product->InCart = $inCart;
+            }
+        }
+        
         return $products;
     }
 }
