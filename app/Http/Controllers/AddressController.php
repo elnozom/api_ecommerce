@@ -21,11 +21,7 @@ class AddressController extends Controller
         // if()
         $address['AccSerial'] = $request->user()->id;
         $address = Address::create($address);
-        $q = "INSERT INTO OlAddresses(id , BuildingNo , RowNo , FlatNo , Street , Remark , Main , AreaNo , AccSerial , PhSerial) VALUES ($address->id , $address->BuildingNo , $address->RowNo , $address->FlatNo , $address->Street , $address->Remark , $address->Main , $address->AreaNo , $address->AccSerial , $address->PhSerial)";
-        DB::insert('call SetQuery(?)',[$q]);
         return response()->json(['success' => true , 'message' => 'address created successfully']);
-
-
     }
     public function update(Request $request , $id)
     {
@@ -42,12 +38,7 @@ class AddressController extends Controller
             return $address;
         }
         $address = Address::where('id', $id)->update($address);
-        $q = "UPDATE OlAddresses SET id = $currAddress->id, BuildingNo = $currAddress->BuildingNo, RowNo = $currAddress->RowNo, FlatNo = $currAddress->FlatNo, Street = $currAddress->Street, Remark = $currAddress->Remark, Main = $currAddress->Main, AreaNo = $currAddress->AreaNo, AccSerial = $currAddress->AccSerial, PhSerial = $currAddress->PhSerial WHERE id = $id ";
-        ;
-        DB::insert('call SetQuery(?)',[$q]);
-
         return response()->json(['success' => true , 'message' => 'address updated successfully']);
-
     }
     public function delete($id)
     {
@@ -56,7 +47,6 @@ class AddressController extends Controller
             return response()->json('this address is not stored' , 400);
         }
         DB::delete('DELETE FROM addresses WHERE id = ? ' , [$id]);
-        DB::insert('call SetQuery(?)',["DELETE FROM OlAddresses WHERE id = $id"]);
         return response()->json(['success' => true , 'message' => 'address deleted successfully']);
     }
     public function find(Request $request , $id){
@@ -81,7 +71,7 @@ class AddressController extends Controller
     }
     public function list(Request $request)
     {
-        $addresses = DB::select("SELECT * FROM addresses WHERE AccSerial = ? ", [$request->user()->id]);
+        $addresses = DB::select("SELECT a.* , p.Phone , ar.AreaName , s.AreaName SectionName , s.id SectionNo  FROM addresses a JOIN phones p ON  a.PhSerial = p.id JOIN areas ar ON a.AreaNo = ar.id JOIN areas s ON ar.SectionNo = s.id  WHERE a.AccSerial = ? ", [$request->user()->id]);
         return $addresses;
     }
 
@@ -111,6 +101,15 @@ class AddressController extends Controller
         {
             return response()->json('this area is not stored' , 400);
         }
-        return $request->all();
+        return [
+            'BuildingNo' => $request->BuildingNo,
+            'RowNo' => $request->RowNo,
+            'FlatNo' => $request->FlatNo,
+            'Street' => $request->Street,
+            'Remark' => $request->Remark,
+            'Main' => $request->Main,
+            'AreaNo' => $request->AreaNo,
+            'PhSerial' => $request->PhSerial,
+        ];
     }
 }

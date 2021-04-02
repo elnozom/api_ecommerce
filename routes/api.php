@@ -55,6 +55,7 @@ Route::post('/logout','AuthController@logout');
 		Route::delete('/{id}','ProductController@delete');
 		Route::get('/find/{id}','ProductController@find');
 		Route::get('/','ProductController@list');
+		Route::get('/home/{key}','ProductController@listHome');
 	});
 
 	Route::prefix('cart')->middleware('auth:api')->group(function(){

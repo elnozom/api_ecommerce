@@ -89,7 +89,7 @@ class AuthController extends Controller
     }
     protected function catchUserFromReq($request){
         $rules = [
-            'password' => 'required|max:255',
+            'password' => 'required|max:255|min:6',
         ];
         if(is_numeric($request->emailOrPhone)){
             $rules['emailOrPhone'] = 'required|max:255';

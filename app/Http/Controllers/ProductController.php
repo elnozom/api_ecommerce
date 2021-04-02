@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
+use App\CartProduct;
 use App\Http\Requests\ListProductRequest;
 use App\Product;
 use App\QueryFilters\ByWeight;
@@ -35,16 +37,6 @@ class ProductController extends Controller
     public function list(ListProductRequest $request)
     {
         // dd((int)$request->byWeight);
-        if($request->key){
-            if($request->key == 'featured'){
-                $products = Product::where('featured' , 1)->get();
-            } else if($request->key == 'latest'){
-                $products = Product::where('latest' , 1)->get();
-            } else {
-                return [];
-            }
-            return $products;
-        }
         $pipeline = app(Pipeline::class)->send(Product::query())->through([
             ByWeight::class,
             PriceFrom::class,
@@ -54,6 +46,43 @@ class ProductController extends Controller
             GroupCode::class,
 
         ])->thenReturn();
-        return $pipeline->paginate(9); 
+        $products = $pipeline->paginate(9);
+        $user = $request->user('api');
+        if(isset($user->id)){
+            return $this->inCart($user->id , $products); 
+        }
+        return $products;
+    }
+
+    
+
+    public function listHome($key , Request $request)
+    {
+        if($key == 'featured'){
+            $products = Product::where('featured' , 1)->get();
+        } else if($key == 'latest'){
+            $products = Product::where('latest' , 1)->get();
+        } else {
+            return [];
+        }
+        $user = $request->user('api');
+        if(isset($user->id)){
+            return $this->inCart($user->id , $products); 
+        }
+        return $products; 
+    }
+
+    protected function inCart($user , $products)
+    {
+        $cart = Cart::cart()->select(['id'])->where('user_id' , $user)->first();
+        if($cart !== null){
+            foreach($products as $product){
+                // dd($product);
+                $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first() !== null;
+                $product->InCart = $inCart;
+            }
+        }
+        
+        return $products;
     }
 }

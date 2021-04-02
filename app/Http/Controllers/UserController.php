@@ -85,9 +85,6 @@ class UserController extends Controller
         }
         
         User::where('id', $id)->update($userRequest);
-        $q = "UPDATE  OlAccounts SET AccSerial = $currUser->AccSerial , `Name` = $currUser->Name , Email = $currUser->Email , `Password` = $currUser->password WHERE id = $id";
-        DB::insert('call SetQuery(?)',[$q]);
-        
         return response()->json(['success' => 'true' , 'message' => 'User data updated successfully']);
     }
     public function UpdatePhone(Request $request , $id)
@@ -106,11 +103,6 @@ class UserController extends Controller
             return response()->json($validator->errors(),400);
         }
         $currPhone->update($request->all());
-        
-  
-  
-        $q = "UPDATE PlPhones SET PhSerial = $currPhone->id , Phone = $currPhone->Phone , AccSerial = $currPhone->AccSerial";
-        DB::insert('call SetQuery(?)',[$q]);
         return response()->json(['success' => 'true' , 'message' => 'Phone updated successfully']);
 
     }
@@ -124,7 +116,6 @@ class UserController extends Controller
             return response()->json('this phone dosen\'t belong to this user' , 400);
         }
         DB::delete('DELETE FROM phones WHERE id = ? ' , [$id]);
-        DB::insert('call SetQuery(?)',["DELETE FROM PlPhones WHERE PhSerial = $id"]);
         return response()->json(['success' => 'true' , 'message' => 'phone deleted successfully']);
     }
     public function AddPhone(Request $request)
@@ -140,12 +131,6 @@ class UserController extends Controller
             "Phone" => $request->phone ,
             "AccSerial" => $request->user()->id,
         ]);
-        
-  
-  
-        $q = "INSERT INTO PlPhones(PhSerial , Phone , AccSerial) VALUES($phone->id , $phone->Phone , $phone->AccSerial";
-        DB::insert('call SetQuery(?)',[$q]);
-        return response()->json(['success' => 'true' , 'message' => 'Phone updated successfully']);
         return $request->user()->phones;
     }
 }
