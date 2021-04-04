@@ -145,6 +145,12 @@ class CartController extends Controller
         //     return ;
         // }
         $product = Product::where('id' , $product)->first();
+        $cartProduct = CartProduct::where('product_id' , $product->id)->where('cart_id' , $cart)->first();
+        if($cartProduct !==  null){
+            $cartProduct->qty = $cartProduct->qty + $qty;
+            $cartProduct->save();
+            return $product;
+        } 
         $rec = [
             "cart_id" => $cart,
             "product_id" => $product->id,

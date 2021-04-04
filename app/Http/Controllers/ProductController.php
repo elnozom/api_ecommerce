@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\CartProduct;
+use App\Group;
 use App\Http\Requests\ListProductRequest;
 use App\Product;
 use App\QueryFilters\ByWeight;
@@ -14,6 +15,7 @@ use App\QueryFilters\GroupCode;
 use App\QueryFilters\Sort;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -29,9 +31,23 @@ class ProductController extends Controller
     {
 
     }
-    public function find($id)
+    public function find($id , Request $request)
     {
         $product = Product::find($id);
+        $group  = Group::select([ 'id' ,'GroupNameEn' , 'GroupName' ])->find($product->GroupCode);
+        // $group = DB::select('SELECT GroupNameEn , GroupName FROM groups WHERE id = ?' , [$product->GroupCode]);
+        $user = $request->user('api');
+        if(isset($user->id)){
+            $cart = Cart::cart()->select(['id'])->where('user_id' , $user->id)->first();
+            if($cart !== null){
+                $inCart = CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first();
+                if($inCart !== null){
+                    $product->InCart = true;
+                    $product->cartQty = $inCart->qty;
+                }
+            }
+        }
+        $product->group = $group;
         return response()->json($product);
     }
     public function list(ListProductRequest $request)
