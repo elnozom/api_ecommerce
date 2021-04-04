@@ -72,6 +72,7 @@ Route::post('/logout','AuthController@logout');
 	Route::prefix('wishlist')->middleware('auth:api')->group(function(){
         Route::get('/','WishlistController@get');
         Route::post('/','WishlistController@create');
+        Route::post('/switch/{id}','WishlistController@switch');
         Route::delete('/{id}','WishlistController@delete');
 	// Route::delete('/decrease/{id}','CartController@DecreaseCartItem');
         

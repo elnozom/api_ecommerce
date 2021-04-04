@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
+use App\CartProduct;
+use App\Product;
 use App\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,12 +39,49 @@ class WishlistController extends Controller
 
     public function delete(Request $request , $id)
     {
-        $id = $request->user()->id;
-        $rec = Wishlist::where('user_id' , $id)->where('product_id' , $id)->first();
+        $userId = $request->user()->id;
+        $rec = Wishlist::where('user_id' , $userId)->where('product_id' , $id)->first();
         if($rec == null){ 
                 return response()->json('Sorry! this item dosn\'t exist on your wishlist' , 400);
         } 
         $rec->delete();
         return response()->json('added to wishlist successfully');
+    }
+
+
+    public function switch(Request $request , $id)
+    {
+        $userId = $request->user()->id;
+        $rec = Wishlist::where('user_id' , $userId)->where('product_id' , $id)->first();
+        if($rec == null){ 
+                return response()->json('Sorry! this item dosn\'t exist on your wishlist' , 400);
+        } 
+        $cart = Cart::where('user_id' , $userId)->cart()->first();
+        if($cart == null){
+            $cart = $this->init($userId);
+        }
+        // dd($cart);
+        $this->setProducts($cart->id , $id , $request->qty);
+        $rec->delete();
+        return response()->json('switched to cart successfully');
+    }
+
+    private function init($id){
+        $cart = Cart::create(['user_id' => $id]);
+        return $cart;
+    }
+    private function setProducts($cart  , $product , $qty ){
+        // dd($product);
+        $qty = $qty == null ? 1 : $qty;
+        $product = Product::where('id' , $product)->first();
+        $rec = [
+            "cart_id" => $cart,
+            "product_id" => $product->id,
+            "price" => $product->POSPP,
+            "qty" => $qty,
+        ];
+        // dd($rec);
+        CartProduct::create($rec);
+        return $product;
     }
 }

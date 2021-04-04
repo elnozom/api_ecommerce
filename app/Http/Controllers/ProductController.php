@@ -78,8 +78,11 @@ class ProductController extends Controller
         if($cart !== null){
             foreach($products as $product){
                 // dd($product);
-                $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first() !== null;
-                $product->InCart = $inCart;
+                $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first();
+                if($inCart !== null){
+                    $product->InCart = true;
+                    $product->cartQty = $inCart->qty;
+                }
             }
         }
         
