@@ -62,7 +62,7 @@ class ProductController extends Controller
             GroupCode::class,
 
         ])->thenReturn();
-        $products = $pipeline->paginate(9);
+        $products = $pipeline->paginate(1);
         $user = $request->user('api');
         if(isset($user->id)){
             return $this->inCart($user->id , $products); 

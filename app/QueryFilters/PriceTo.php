@@ -10,11 +10,11 @@ class PriceTo
     public function handle($request , Closure $next)
     {
         $builder = $next($request);
-        if(! request()->has('PriceTo')){
+        if(! request()->has('priceTo')){
             return $builder;
         }
         
-        return $builder->where('POSPP' , '<=' , request('PriceTo'));
+        return $builder->where('POSPP' , '<=' , request('priceTo'));
     }
 
 }

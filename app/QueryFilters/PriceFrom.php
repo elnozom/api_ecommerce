@@ -10,11 +10,11 @@ class PriceFrom
     public function handle($request , Closure $next)
     {
         $builder = $next($request);
-        if(! request()->has('PriceFrom')){
+        if(! request()->has('priceFrom')){
             return $builder;
         }
         
-        return $builder->where('POSPP' , '>=' , request('PriceFrom'));
+        return $builder->where('POSPP' , '>=' , request('priceFrom'));
     }
 
 }

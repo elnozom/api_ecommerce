@@ -11,11 +11,11 @@ class GroupCode
     {
 
         $builder = $next($request);
-        if(! request()->has('GroupCode')){
+        if(! request()->has('group')){
             return $builder;
         }
         
-        return $builder->where('GroupCode' , (int)request('GroupCode'));
+        return $builder->where('GroupCode' , (int)request('group'));
     }
 
 }
