@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -24,5 +25,11 @@ class Cart extends Model
     public function scopeOrders($query)
     {
         return $query->where('closed_at', '!=', null);
+    }
+
+
+    public function getClosedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('M-d-Y');
     }
 }

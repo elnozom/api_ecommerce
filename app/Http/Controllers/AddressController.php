@@ -71,7 +71,11 @@ class AddressController extends Controller
     }
     public function list(Request $request)
     {
-        $addresses = DB::select("SELECT a.* , p.Phone , ar.AreaName , s.AreaName SectionName , s.id SectionNo  FROM addresses a JOIN phones p ON  a.PhSerial = p.id JOIN areas ar ON a.AreaNo = ar.id JOIN areas s ON ar.SectionNo = s.id  WHERE a.AccSerial = ? ", [$request->user()->id]);
+        $addresses = DB::select("SELECT  a.* , p.Phone , ar.AreaName , s.AreaName SectionName , s.id SectionNo  FROM addresses a JOIN phones p ON  a.PhSerial = p.id JOIN areas ar ON a.AreaNo = ar.id JOIN areas s ON ar.SectionNo = s.id  WHERE a.AccSerial = ? ", [$request->user()->id]);
+        foreach($addresses as $address){
+            $title = $address->BuildingNo. ' ' . $address->Street. ' ' . $address->Remark. ' ' . $address->RowNo. ' ' . $address->FlatNo;
+            $address->title = $title;
+        }
         return $addresses;
     }
 

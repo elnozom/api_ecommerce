@@ -17,6 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->string('GroupNameEn');
             $table->string('GroupName');
+            $table->string('icon')->nullable();
             $table->string('image')->nullable();
             $table->boolean('ByWeight')->default(false);
             $table->unsignedBigInteger('FatherCode')->nullable();

@@ -73,7 +73,7 @@ class GroupController extends Controller
     }
     public function list(Request $request)
     {
-        $groups = Group::select('id' , 'GroupName', 'GroupNameEn', 'ByWeight' , 'image')->active();
+        $groups = Group::select('id' , 'icon' , 'GroupName', 'GroupNameEn', 'ByWeight' , 'image')->active();
         if($request->featured){
             return $groups->where('Featured' , true)->get();
         }
