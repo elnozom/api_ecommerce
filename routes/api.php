@@ -60,6 +60,7 @@ Route::post('/logout','AuthController@logout');
 
 	Route::prefix('cart')->middleware('auth:api')->group(function(){
         Route::get('/','CartController@get');
+        Route::get('/totals','CartController@getTotals');
         Route::post('/','CartController@create');
         Route::delete('/{id}','CartController@delete');
         Route::put('/{id}','CartController@update');

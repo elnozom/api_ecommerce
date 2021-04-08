@@ -23,6 +23,8 @@ class CartController extends Controller
         if($cart == null){
             return response()->json(['products' => []]);
         }
+
+        // dd($cart);
         // dd($cart);
         $products = DB::select(
                     "SELECT 
@@ -40,6 +42,7 @@ class CartController extends Controller
         if(count($products) > 0){
             $cart->products = $products;
             $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? AND deleted_at IS NULL" ,[ $cart->id])[0]->subtotal;
+            // dd($subtotal);   
             $discountVal = 0;
             if($cart->discount_code != null){
                 $coupon = Coupon::where('code' , $cart->discount_code)->first();
@@ -57,9 +60,30 @@ class CartController extends Controller
             $cart->total = $subtotal - $discountVal +  $cart->shipping;
             return response()->json($cart);
         } else{
-            return response()->json('no items');
-
+            $cart->products = [];
+            return response()->json($cart);
         }   
+    }
+
+    public function getTotals(Request $request)
+    {
+        $id = $request->user()->id;
+        $cart = Cart::where('user_id' , $id)->select(['id' , 'shipping' , 'discount_code'])->cart()->first();
+        $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? AND deleted_at IS NULL" ,[ $cart->id])[0]->subtotal;
+        $discountVal = 0;
+        if($cart->discount_code != null){
+            $coupon = Coupon::where('code' , $cart->discount_code)->first();
+            if($coupon->type == 'fixed'){
+                $discountVal = $coupon->value;
+            } else {
+                $cart->percentOff = $coupon->value;
+                $discountVal =  $coupon->value * $subtotal / 100;
+            }
+            $cart->discounVal = $discountVal;
+        }
+        $cart->subtotal = $subtotal;
+        $cart->total = $subtotal - $discountVal +  $cart->shipping;
+        return response()->json($cart);
     }
 
     public function checkout(Request $request)

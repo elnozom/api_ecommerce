@@ -21,7 +21,7 @@ class AddressController extends Controller
         // if()
         $address['AccSerial'] = $request->user()->id;
         $address = Address::create($address);
-        return response()->json(['success' => true , 'message' => 'address created successfully']);
+        return response()->json($address->id);
     }
     public function update(Request $request , $id)
     {
