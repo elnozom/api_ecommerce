@@ -15,7 +15,7 @@ class Search
             return $builder;
         }
         
-        return $builder->where('ItemName' , 'LIKE' , '%'.request("Search").'%');
+        return $builder->where('ItemName' , 'LIKE' , '%'.request("Search").'%')->orWhere('ItemNameEn' , 'LIKE' , '%'.request("Search").'%');
     }
 
 }
