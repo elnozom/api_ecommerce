@@ -61,7 +61,7 @@ class CartController extends Controller
             return response()->json($cart);
         } else{
             $cart->products = [];
-            return response()->json($cart);
+            return response()->json(['products' => []]);
         }   
     }
 

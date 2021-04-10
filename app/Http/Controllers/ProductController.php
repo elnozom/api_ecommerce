@@ -46,6 +46,16 @@ class ProductController extends Controller
                     $product->cartQty = $inCart->qty;
                 }
             }
+            $wihslist =  DB::select(
+                "SELECT 
+                    w.id
+                    FROM wishlist w 
+                    JOIN products p 
+                        ON w.product_id = p.id
+                    WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user->id , $id]);
+            if(isset($wihslist[0])){
+                $product->InWihslit = true;
+            }
         }
         $product->group = $group;
         return response()->json($product);
@@ -99,6 +109,19 @@ class ProductController extends Controller
                     $product->InCart = true;
                     $product->cartQty = $inCart->qty;
                 }
+
+                $wihslist =  DB::select(
+                    "SELECT 
+                        w.id
+                        FROM wishlist w 
+                        JOIN products p 
+                            ON w.product_id = p.id
+                        WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user->id , $product->id]);
+                if(isset($wihslist[0])){
+                    $product->InWihslit = true;
+                }
+
+                
             }
         }
         
