@@ -58,8 +58,6 @@ class AuthController extends Controller
             'password' =>bcrypt($request->password),
         ];
         $user =  User::create($userRequest);
-        $q = "INSERT INTO OlAccounts(AccSerial ,`Name` ,Email ,`Password`) VALUES($user->id , $user->name , $user->email , $user->password)";
-        DB::insert('call SetQuery(?)',[$q]);
         $phoneRequest =  [
             'Phone' =>$request->phone,
             'AccSerial' =>$user->id,
@@ -84,8 +82,6 @@ class AuthController extends Controller
     }
     protected function attachPhone($request){
         $phone = Phone::create($request);
-        $q = "INSERT INTO OlPhones(PhSerial,AccSerial ,`Phone`) VALUES($phone->id , $phone->AccSerial , $phone->phone)";
-        DB::insert('call SetQuery(?)',[$q]);
     }
     protected function catchUserFromReq($request){
         $rules = [

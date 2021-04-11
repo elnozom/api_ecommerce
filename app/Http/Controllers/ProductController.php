@@ -116,7 +116,7 @@ class ProductController extends Controller
                         FROM wishlist w 
                         JOIN products p 
                             ON w.product_id = p.id
-                        WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user->id , $product->id]);
+                        WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user , $product->id]);
                 if(isset($wihslist[0])){
                     $product->InWihslit = true;
                 }

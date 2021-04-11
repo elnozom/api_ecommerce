@@ -32,6 +32,11 @@ class WishlistController extends Controller
     public function create(Request $request)
     {
         $id = $request->user()->id;
+        $item = Wishlist::where('product_id' , $request->product)->where('user_id' , $id)->first();
+        if($item !== null){
+            return response()->json('item already on your wishlist');
+        
+        }
         $rec = ['user_id' => $id , 'product_id' => $request->product];
         Wishlist::create($rec);
         return response()->json('added to wishlist successfully');
