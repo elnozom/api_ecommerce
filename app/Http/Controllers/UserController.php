@@ -131,6 +131,6 @@ class UserController extends Controller
             "Phone" => $request->phone ,
             "AccSerial" => $request->user()->id,
         ]);
-        return $request->user()->phones;
+        return ['phones' => $request->user()->phones , 'id' => $phone->id];
     }
 }

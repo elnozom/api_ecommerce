@@ -34,7 +34,8 @@ class WishlistController extends Controller
         $id = $request->user()->id;
         $item = Wishlist::where('product_id' , $request->product)->where('user_id' , $id)->first();
         if($item !== null){
-            return response()->json('item already on your wishlist');
+            $item->delete();
+            return response()->json('deleted');
         
         }
         $rec = ['user_id' => $id , 'product_id' => $request->product];
