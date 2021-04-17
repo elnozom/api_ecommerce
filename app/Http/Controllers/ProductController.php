@@ -7,6 +7,7 @@ use App\CartProduct;
 use App\Group;
 use App\Http\Requests\ListProductRequest;
 use App\Product;
+use App\ProductOption;
 use App\QueryFilters\ByWeight;
 use App\QueryFilters\PriceTo;
 use App\QueryFilters\PriceFrom;
@@ -58,6 +59,38 @@ class ProductController extends Controller
             }
         }
         $product->group = $group;
+
+        //get product options
+
+
+        //get all avilable sizes of the product
+        $sizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1' , [$product->id] );
+        //get avilable sizes based on color
+        $avilableSizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1 AND color = ?' , [$product->id , $request->color]);
+
+        //get avilable colors based on size
+        $avilableColors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ? AND InStock = 1 AND size = ?' , [$product->id , $request->size]);
+        //get all avilable images of the product
+        $images = DB::select('SELECT `image` , color FROM product_images WHERE product_id = ?' , [$product->id] );
+        //get add avilable colors of the prouct
+        $colors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ?' , [$product->id] );
+
+        //inject stock avilability on sizes array based on color
+        foreach($sizes as $size){
+            if(in_array($size , $avilableSizes)){
+                $size->InStock = 1;
+            }
+        }
+
+        //inject stock avilability on colors array based on size
+        foreach($colors as $color){
+            if(in_array($color , $avilableColors)){
+                $color->InStock = 1;
+            }
+        }
+        $product->sizes = $sizes;
+        $product->images = $images;
+        $product->colors = $colors;
         return response()->json($product);
     }
     public function list(ListProductRequest $request)
