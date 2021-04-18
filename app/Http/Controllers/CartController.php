@@ -31,6 +31,8 @@ class CartController extends Controller
                         p.* ,
                         cp.price ,
                         cp.cart_id ,
+                        (SELECT size FROM product_options WHERE id = cp.option_id LIMIT 1) size,
+                        (SELECT color FROM product_options WHERE id = cp.option_id LIMIT 1) color,
                         cp.qty 
                         FROM cart_product cp 
                         JOIN products p 
@@ -151,23 +153,18 @@ class CartController extends Controller
         if($cart == null){
             $cart = $this->init($id);
         }
-        // dd($cart);
-        $this->setProducts($cart->id , $request->product , $request->qty);
+        
+        $option =isset($request->color) && isset($request->size) ? DB::select('SELECT id FROM product_options WHERE size = ? AND color = ?' , [$request->size , $request->color])[0]->id : null;
+        $this->setProducts($cart->id , $request->product , $option , $request->qty);
         return response()->json(['success' => 'true' , 'message' => 'added to cart successfully']);
     }
     private function init($id){
         $cart = Cart::create(['user_id' => $id]);
         return $cart;
     }
-    private function setProducts($cart  , $product , $qty ){
+    private function setProducts($cart  , $product , $option , $qty ){
         // dd($product);
         $qty = $qty == null ? 1 : $qty;
-        // $rec = CartProduct::where('product_id' , $product)->where('cart_id' , $cart)->first();
-        // if($rec != null){
-        //     $rec->qty = $rec->qty + 1;
-        //     $rec->save();
-        //     return ;
-        // }
         $product = Product::where('id' , $product)->first();
         $cartProduct = CartProduct::where('product_id' , $product->id)->where('cart_id' , $cart)->first();
         if($cartProduct !==  null){
@@ -178,6 +175,7 @@ class CartController extends Controller
         $rec = [
             "cart_id" => $cart,
             "product_id" => $product->id,
+            "option_id" => $option,
             "price" => $product->POSPP,
             "qty" => $qty,
         ];

@@ -36,9 +36,43 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $group  = Group::select([ 'id' ,'GroupNameEn' , 'GroupName' ])->find($product->GroupCode);
-        // $group = DB::select('SELECT GroupNameEn , GroupName FROM groups WHERE id = ?' , [$product->GroupCode]);
+        $product->group = $group;
         $user = $request->user('api');
         if(isset($user->id)){
+            $product = $this->inCartProduct($user , $product);
+        }
+        $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
+        if($hasOptions){
+            $product = $this->productOptoptions($request , $product);
+        }
+        
+        return response()->json($product);
+    }
+
+
+    //get product options
+    private function productOptoptions($request , $product)
+    {
+        $images = DB::select('SELECT `image` , color FROM product_images WHERE product_id = ?' , [$product->id] );
+        if(isset($request->size)){
+            //get avilable colors based on size
+            $colors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ? AND InStock = 1 AND size = ?' , [$product->id , $request->size]);
+        } else {
+            //get all avilable colors of the prouct
+            $colors = DB::select('SELECT DISTINCT color, InStock FROM product_options WHERE product_id = ? AND InStock = 1' , [$product->id] );
+        }
+        //get inital color
+        $initialColor =isset($request->color) ? $request->color : $colors[0]->color;
+        $sizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1 AND color = ?' , [$product->id , $initialColor]);
+        $product->sizes = $sizes;
+        $product->images = $images;
+        $product->colors = $colors;
+        $product->initlaColor = $initialColor;
+
+        return $product;
+    }
+    private function inCartProduct($user , $product){
+       
             $cart = Cart::cart()->select(['id'])->where('user_id' , $user->id)->first();
             if($cart !== null){
                 $inCart = CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first();
@@ -53,45 +87,13 @@ class ProductController extends Controller
                     FROM wishlist w 
                     JOIN products p 
                         ON w.product_id = p.id
-                    WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user->id , $id]);
+                    WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user->id , $product->id]);
             if(isset($wihslist[0])){
                 $product->InWihslit = true;
             }
-        }
-        $product->group = $group;
 
-        //get product options
-
-
-        //get all avilable sizes of the product
-        $sizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1' , [$product->id] );
-        //get avilable sizes based on color
-        $avilableSizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1 AND color = ?' , [$product->id , $request->color]);
-
-        //get avilable colors based on size
-        $avilableColors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ? AND InStock = 1 AND size = ?' , [$product->id , $request->size]);
-        //get all avilable images of the product
-        $images = DB::select('SELECT `image` , color FROM product_images WHERE product_id = ?' , [$product->id] );
-        //get add avilable colors of the prouct
-        $colors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ?' , [$product->id] );
-
-        //inject stock avilability on sizes array based on color
-        foreach($sizes as $size){
-            if(in_array($size , $avilableSizes)){
-                $size->InStock = 1;
-            }
-        }
-
-        //inject stock avilability on colors array based on size
-        foreach($colors as $color){
-            if(in_array($color , $avilableColors)){
-                $color->InStock = 1;
-            }
-        }
-        $product->sizes = $sizes;
-        $product->images = $images;
-        $product->colors = $colors;
-        return response()->json($product);
+            return $product;
+        
     }
     public function list(ListProductRequest $request)
     {

@@ -67,7 +67,6 @@ class ProductSeeder extends Seeder
 
         $options = [
             [
-                'product_id' => 1,
                 'images' => [
                                 ['product_id' => 1,'color' => '171614' ,'image' =>'https://lcw.akinoncdn.com/products/2020/09/23/1146799/61c62e89-be93-413d-a6f7-bb59ea0c29f6_quality90.jpg'],
                                 ['product_id' => 1,'color' => '171614' ,'image' =>    'https://lcw.akinoncdn.com/products/2020/09/23/1152116/c7039f50-ab3f-4be7-ae63-1a7c11c02898_quality90.jpg'],
