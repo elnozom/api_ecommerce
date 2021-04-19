@@ -44,6 +44,7 @@ class ProductController extends Controller
         $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
         if($hasOptions){
             $product = $this->productOptoptions($request , $product);
+            $product->hasOptions = $hasOptions;
         }
         
         return response()->json($product);
@@ -64,10 +65,11 @@ class ProductController extends Controller
         //get inital color
         $initialColor =isset($request->color) ? $request->color : $colors[0]->color;
         $sizes = DB::select('SELECT DISTINCT size FROM product_options WHERE product_id = ? AND InStock = 1 AND color = ?' , [$product->id , $initialColor]);
+        // dd($sizes);
         $product->sizes = $sizes;
         $product->images = $images;
         $product->colors = $colors;
-        $product->initlaColor = $initialColor;
+        $product->initialColor = $initialColor;
 
         return $product;
     }
@@ -154,6 +156,12 @@ class ProductController extends Controller
                         WHERE w.user_id = ? AND isNull(w.deleted_at) AND p.id = ? " , [$user , $product->id]);
                 if(isset($wihslist[0])){
                     $product->InWihslit = true;
+                }
+
+                //has options
+                $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
+                if($hasOptions){
+                    $product->hasOptions = $hasOptions;
                 }
 
                 
