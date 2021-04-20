@@ -9,6 +9,8 @@ use App\Coupon;
 use App\CouponUser;
 use App\Http\Requests\CartRequest;
 use App\Product;
+use App\ProductImage;
+use App\ProductOption;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +33,7 @@ class CartController extends Controller
                         p.* ,
                         cp.price ,
                         cp.cart_id ,
+                        cp.image,
                         (SELECT size FROM product_options WHERE id = cp.option_id LIMIT 1) size,
                         (SELECT color FROM product_options WHERE id = cp.option_id LIMIT 1) color,
                         cp.qty 
@@ -154,7 +157,7 @@ class CartController extends Controller
             $cart = $this->init($id);
         }
         
-        $option =isset($request->color) && isset($request->size) ? DB::select('SELECT id FROM product_options WHERE size = ? AND color = ?' , [$request->size , $request->color])[0]->id : null;
+        $option =isset($request->color) && isset($request->size) ? DB::select('SELECT id FROM product_options WHERE size = ? AND color = ?' , [$request->size , $request->color])[0] : null;
         $this->setProducts($cart->id , $request->product , $option , $request->qty);
         return response()->json(['success' => 'true' , 'message' => 'added to cart successfully']);
     }
@@ -172,10 +175,20 @@ class CartController extends Controller
             $cartProduct->save();
             return $product;
         } 
+        $optionId = null;
+        $image = null;
+        if($option !== null) {
+            $option = ProductOption::find($option->id);
+            // dd($option);
+            $image = ProductImage::where('product_id' , $product->id)->where('color' , $option->color)->first();
+            $image = $image !== null ? $image->image : null;
+            $optionId = $option->id;
+        }
         $rec = [
             "cart_id" => $cart,
             "product_id" => $product->id,
-            "option_id" => $option,
+            "option_id" => $optionId,
+            "image" => $image,
             "price" => $product->POSPP,
             "qty" => $qty,
         ];

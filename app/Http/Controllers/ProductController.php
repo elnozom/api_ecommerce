@@ -112,7 +112,7 @@ class ProductController extends Controller
         $products = $pipeline->paginate(8);
         $user = $request->user('api');
         if(isset($user->id)){
-            return $this->inCart($user->id , $products); 
+            return $this->inCart($user->id , $products , $request); 
         }
         return $products;
     }
@@ -130,23 +130,28 @@ class ProductController extends Controller
         }
         $user = $request->user('api');
         if(isset($user->id)){
-            return $this->inCart($user->id , $products); 
+            return $this->inCart($user->id , $products , $request); 
         }
         return $products; 
     }
 
-    protected function inCart($user , $products)
+    protected function inCart($user , $products , $request)
     {
         $cart = Cart::cart()->select(['id'])->where('user_id' , $user)->first();
-        if($cart !== null){
             foreach($products as $product){
-                // dd($product);
-                $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first();
-                if($inCart !== null){
-                    $product->InCart = true;
-                    $product->cartQty = $inCart->qty;
+                $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
+                if($hasOptions){
+                    $product->hasOptions = $hasOptions;
+                    $product = $this->productOptoptions($request , $product);
                 }
 
+                if($cart !== null){
+                    $inCart= CartProduct::where('cart_id' , $cart->id)->where('product_id' , $product->id)->first();
+                    if($inCart !== null){
+                        $product->InCart = true;
+                        $product->cartQty = $inCart->qty;
+                    }
+                }
                 $wihslist =  DB::select(
                     "SELECT 
                         w.id
@@ -157,15 +162,7 @@ class ProductController extends Controller
                 if(isset($wihslist[0])){
                     $product->InWihslit = true;
                 }
-
-                //has options
-                $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
-                if($hasOptions){
-                    $product->hasOptions = $hasOptions;
-                }
-
-                
-            }
+                // dd($product);
         }
         
         return $products;
