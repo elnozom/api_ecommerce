@@ -170,11 +170,6 @@ class CartController extends Controller
         $qty = $qty == null ? 1 : $qty;
         $product = Product::where('id' , $product)->first();
         $cartProduct = CartProduct::where('product_id' , $product->id)->where('cart_id' , $cart)->first();
-        if($cartProduct !==  null){
-            $cartProduct->qty = $cartProduct->qty + $qty;
-            $cartProduct->save();
-            return $product;
-        } 
         $optionId = null;
         $image = null;
         if($option !== null) {
@@ -184,6 +179,11 @@ class CartController extends Controller
             $image = $image !== null ? $image->image : null;
             $optionId = $option->id;
         }
+        if($cartProduct !==  null && $optionId === null){
+            $cartProduct->qty = $cartProduct->qty + $qty;
+            $cartProduct->save();
+            return $product; 
+        } 
         $rec = [
             "cart_id" => $cart,
             "product_id" => $product->id,

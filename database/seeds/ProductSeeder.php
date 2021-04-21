@@ -17,8 +17,9 @@ class ProductSeeder extends Seeder
         $items = [
             [   'ItemNameEn' => 'Slim Fit Gabardine Chino Trousers',
                 'InStock' => 1 ,
+                "hasOptions" => 1,            
                 'latest' => 1 ,
-                'featured' => 1 ,
+                'featured' => 0 ,
                 'ItemImage' => 'https://lcw.akinoncdn.com/products/2019/12/27/1145924/882cd5f3-63f6-48f0-aa96-b16e35d9cee0_size265x353_cropCenter.jpg',
                 'ByWeight' => 0,
                 'POSPP' => 265 ,
@@ -30,7 +31,8 @@ class ProductSeeder extends Seeder
             [   'ItemNameEn' => 'Polo Neck Basic Short Sleeve Pique T-Shirt',
                 'InStock' => 1 ,
                 'latest' => 1 ,
-                'featured' => 1 ,
+                "hasOptions" =>1,
+                'featured' => 0 ,
                 'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/09/23/1184008/e2b976b8-e15c-4305-bc1e-7d5022853d55_size265x353_cropCenter.jpg',
                 'ByWeight' => 0,
                 'POSPP' => 350 ,
@@ -42,7 +44,8 @@ class ProductSeeder extends Seeder
             [   'ItemNameEn' => 'Trousers',
                 'InStock' => 1 ,
                 'latest' => 1 ,
-                'featured' => 1 ,
+                "hasOptions" => 1,
+                'featured' => 0 ,
                 'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/09/23/1350579/8aabd569-178d-4e6f-a8ac-b83ec03319d4_size561x730.jpg',
                 'ByWeight' => 0,
                 'POSPP' => 300 ,
@@ -54,7 +57,8 @@ class ProductSeeder extends Seeder
             [   'ItemNameEn' => 'Applique Printed Straight Fit Maxi Dress',
                 'InStock' => 1 ,
                 'latest' => 1 ,
-                'featured' => 1 ,
+                "hasOptions" => 1,
+                'featured' => 0 ,
                 'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/07/01/1402079/e260ce00-1026-4ab1-a3cb-97940bcfc251_size561x730.jpg',
                 'ByWeight' => 0,
                 'POSPP' => 350 ,
@@ -74,6 +78,19 @@ class ProductSeeder extends Seeder
                                 ['product_id' => 1,'color' => '6f684b' ,'image' => 'https://lcw.akinoncdn.com/products/2019/12/27/1145925/00118536-9637-4840-bb4e-f225034fdb4c_quality90.jpg']
                             ], 
                 'options' => [
+                                [
+                                    'color' => '171614',
+                                    'size' => '31',
+                                    'product_id' => 1,
+                                    'InStock' => 1,
+
+                                ],
+                                [
+                                    'color' => '171614',
+                                    'size' => '36',
+                                    'product_id' => 1,
+                                    'InStock' => 0
+                                ],
                                 [
                                     'color' => '171614',
                                     'size' => '32',
@@ -128,7 +145,6 @@ class ProductSeeder extends Seeder
                     
             ],
             [
-                'product_id' => 2,
                 'images' => [
                                 ['product_id' => 2,'color' => '374c47' ,'image' =>'https://lcw.akinoncdn.com/products/2020/09/23/1184008/e2b976b8-e15c-4305-bc1e-7d5022853d55_size561x730.jpg'],
                                 ['product_id' => 2,'color' => '374c47' ,'image' => 'https://lcw.akinoncdn.com/products/2020/09/23/1190250/aca97ef0-2e84-4d9a-97b1-fa6866ee9fa1_quality90.jpg'],
@@ -311,7 +327,6 @@ class ProductSeeder extends Seeder
                             ]
             ],
         ];
-        
         Product::insert($items);
         
 
@@ -319,5 +334,17 @@ class ProductSeeder extends Seeder
             ProductImage::insert($option['images'] );
             ProductOption::insert($option['options']);
         }
+
+        $items = [
+            ['ItemNameEn' => 'BANANA', 'InStock' => 1 ,'latest' => 0 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/1.png', 'ByWeight' => '1', 'POSPP' => 50 , 'minorPerMajor' => 1000,'POSTP' => 50 * 1000, 'GroupCode' => '3', 'ItemName' => 'موز'],
+            ['ItemNameEn' => 'orange', 'InStock' => 1 ,'latest' => 0 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/2.png', 'ByWeight' => '1', 'POSPP' => 10 , 'minorPerMajor' => 1000,'POSTP' => 10 * 1000, 'GroupCode' => '3', 'ItemName' => 'برتقال'],
+            ['ItemNameEn' => 'potato', 'InStock' => 1 ,'latest' => 0 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/3.png', 'ByWeight' => '1', 'POSPP' => 10 , 'minorPerMajor' => 1000,'POSTP' => 10 * 1000, 'GroupCode' => '4', 'ItemName' => 'بطاطس'],
+            ['ItemNameEn' => 'tomatoes', 'InStock' => 1 ,'latest' => 0 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/5.png', 'ByWeight' => '1', 'POSPP' => 5 , 'minorPerMajor' => 1000,'POSTP' => 5 * 1000, 'GroupCode' => '4', 'ItemName' => 'طماطم'],
+            ['ItemNameEn' => 'grapes', 'InStock' => 1 ,'latest' => 1 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/6.png', 'ByWeight' => '1', 'POSPP' => 5 , 'minorPerMajor' => 1000,'POSTP' => 5 * 1000, 'GroupCode' => '3', 'ItemName' => 'عنب'],
+            ['ItemNameEn' => 'kiwi', 'InStock' => 1 ,'latest' => 1 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/7.png', 'ByWeight' => '1', 'POSPP' => 5 , 'minorPerMajor' => 1000,'POSTP' => 5 * 1000, 'GroupCode' => '3', 'ItemName' => 'كيوي'],
+            ['ItemNameEn' => 'pepper', 'InStock' => 1 ,'latest' => 1 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/8.png', 'ByWeight' => '1', 'POSPP' => 5 , 'minorPerMajor' => 1000,'POSTP' => 5 * 1000, 'GroupCode' => '4', 'ItemName' => 'فلفل'],
+            ['ItemNameEn' => 'broccoli', 'InStock' => 1 ,'latest' => 1 , 'featured' => 1 , 'ItemImage' => 'https://www.ocsolutions.co.in/html/organic_food/images/header3/4.png', 'ByWeight' => '1', 'POSPP' => 5 , 'minorPerMajor' => 1000,'POSTP' => 5 * 1000, 'GroupCode' => '4', 'ItemName' => 'بروكلي'],
+        ];
+        Product::insert($items);
       }
 }

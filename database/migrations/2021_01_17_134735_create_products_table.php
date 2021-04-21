@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('ItemName');
             $table->string('ItemImage');
             $table->boolean('ByWeight')->default(false);
+            $table->boolean('hasOptions')->default(false);
             $table->boolean('latest')->default(false);
             $table->boolean('featured')->default(false);
             $table->unsignedFloat('vat')->default(0);

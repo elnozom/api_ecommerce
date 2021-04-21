@@ -38,13 +38,11 @@ class ProductController extends Controller
         $group  = Group::select([ 'id' ,'GroupNameEn' , 'GroupName' ])->find($product->GroupCode);
         $product->group = $group;
         $user = $request->user('api');
-        if(isset($user->id)){
-            $product = $this->inCartProduct($user , $product);
-        }
-        $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
-        if($hasOptions){
-            $product = $this->productOptoptions($request , $product);
-            $product->hasOptions = $hasOptions;
+        // if(isset($user->id)){
+        //     $product = $this->inCartProduct($user , $product);
+        // }
+        if($product->hasOptions){
+            $product = $this->productOptions($request , $product);
         }
         
         return response()->json($product);
@@ -52,7 +50,7 @@ class ProductController extends Controller
 
 
     //get product options
-    private function productOptoptions($request , $product)
+    private function productOptions($request , $product)
     {
         $images = DB::select('SELECT `image` , color FROM product_images WHERE product_id = ?' , [$product->id] );
         if(isset($request->size)){
@@ -111,9 +109,9 @@ class ProductController extends Controller
         ])->thenReturn();
         $products = $pipeline->paginate(8);
         $user = $request->user('api');
-        if(isset($user->id)){
-            return $this->inCart($user->id , $products , $request); 
-        }
+        // if(isset($user->id)){
+        //     return $this->inCart($user->id , $products , $request); 
+        // }
         return $products;
     }
 
@@ -129,9 +127,9 @@ class ProductController extends Controller
             return [];
         }
         $user = $request->user('api');
-        if(isset($user->id)){
-            return $this->inCart($user->id , $products , $request); 
-        }
+        // if(isset($user->id)){
+        //     return $this->inCart($user->id , $products , $request); 
+        // }
         return $products; 
     }
 
@@ -139,10 +137,8 @@ class ProductController extends Controller
     {
         $cart = Cart::cart()->select(['id'])->where('user_id' , $user)->first();
             foreach($products as $product){
-                $hasOptions = DB::select("SELECT COUNT(*) records FROM product_options WHERE InStock = 1 AND product_id =? " , [$product->id])[0]->records > 0;
-                if($hasOptions){
-                    $product->hasOptions = $hasOptions;
-                    $product = $this->productOptoptions($request , $product);
+                if($product->hasOptions){
+                    $product = $this->productOptions($request , $product);
                 }
 
                 if($cart !== null){
