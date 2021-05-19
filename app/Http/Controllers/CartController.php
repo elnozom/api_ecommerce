@@ -60,7 +60,10 @@ class CartController extends Controller
                 }
                 $cart->discounVal = $discountVal;
             }
-
+            foreach($cart->products as $pr){
+                $pr->image = $pr->image && file_exists('images/'.$pr->image) ? asset('images/' . $pr->image) : $pr->image;
+                $pr->ItemImage = $pr->ItemImage && file_exists('images/'.$pr->ItemImage) ? asset('images/' . $pr->ItemImage) : $pr->ItemImage;
+            }
             $cart->subtotal = $subtotal;
             $cart->total = $subtotal - $discountVal +  $cart->shipping;
             return response()->json($cart);

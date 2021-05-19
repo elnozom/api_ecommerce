@@ -23,6 +23,9 @@ class WishlistController extends Controller
                         WHERE w.user_id = ? AND isNull(w.deleted_at) " , [$id]);
         
         if(count($wishlist) > 0){
+            foreach($wishlist as $pr){
+                $pr->ItemImage = $pr->ItemImage && file_exists('images/'.$pr->ItemImage) ? asset('images/' . $pr->ItemImage) : $pr->ItemImage;
+            }
             return response()->json($wishlist);
         } else{
             return response()->json('no items');

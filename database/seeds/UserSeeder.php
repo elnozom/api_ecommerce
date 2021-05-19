@@ -15,12 +15,20 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = ['name' => 'test' , 'email' => 'test@test.com' , 'password' => bcrypt(123456)];
-        $phone = '01022052546';
+        $admin = ['name' => 'admin' , 'email' => 'admin@elnozom.com' , 'type' => 1 , 'password' => bcrypt(123456)];
         $user = User::create($user);
-        $phoneRecord =  [
-            'Phone' =>$phone,
-            'AccSerial' =>$user->id,
+        $admin = User::create($admin);
+        $phoneRecord = [ 
+            [
+                'Phone' =>'01022052546',
+                'AccSerial' =>$user->id,
+            ],
+            [
+                'Phone' =>'0102205255',
+                'AccSerial' =>$admin->id,
+            ]
         ];
-        $phone = Phone::create($phoneRecord);
+        
+        $phone = Phone::insert($phoneRecord);
     }
 }

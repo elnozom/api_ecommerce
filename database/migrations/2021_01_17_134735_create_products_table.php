@@ -32,6 +32,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('GroupCode');
             $table->foreign('GroupCode')->references('id')->on('groups');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Phone;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Client;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -86,21 +87,12 @@ class AuthController extends Controller
     protected function catchUserFromReq($request){
         $rules = [
             'password' => 'required|max:255|min:6',
+            'email' => 'required|max:255|email',
         ];
-        if(is_numeric($request->emailOrPhone)){
-            $rules['emailOrPhone'] = 'required|max:255';
-            $phone = Phone::where('Phone' , $request->emailOrPhone)->first();
-            if(!$phone){
-                return response()->json("this phone is not found",400);
-            }
-            $user = $phone->user;
-        }else{
-            $user = User::where('email' , $request->emailOrPhone)->where('type' , 0)->first();
-            if(!$user){
-                return response()->json("this email is not found",400);
-            }
+        $user = User::where('email' , $request->email)->where('type' , 1)->first();
+        if(!$user){
+            return response()->json("this email is not found",400);
         }
-
         return ['user' => $user , 'rules' => $rules];
        
     }

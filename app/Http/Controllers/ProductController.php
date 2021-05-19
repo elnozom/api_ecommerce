@@ -35,24 +35,32 @@ class ProductController extends Controller
     public function find($id , Request $request)
     {
         $product = Product::find($id);
+        if($product == null){
+            return response()->json('product not found' , 400);
+        }
         $group  = Group::select([ 'id' ,'GroupNameEn' , 'GroupName' ])->find($product->GroupCode);
         $product->group = $group;
-        $user = $request->user('api');
         // if(isset($user->id)){
-        //     $product = $this->inCartProduct($user , $product);
-        // }
-        if($product->hasOptions){
-            $product = $this->productOptions($request , $product);
+            //     $product = $this->inCartProduct($user , $product);
+            // }
+            if($product->hasOptions){
+                $product = $this->productOptions($request , $product);
+            }
+            
+            return response()->json($product);
         }
-        
-        return response()->json($product);
-    }
 
 
     //get product options
     private function productOptions($request , $product)
     {
         $images = DB::select('SELECT `image` , color FROM product_images WHERE product_id = ?' , [$product->id] );
+        if(count($images) > 0){
+            foreach($images as $image){
+                $image->image = $image->image && file_exists('images/products/'.$image->image) ? asset('images/products/' . $image->image) : $image->image;
+              
+            }
+        }
         if(isset($request->size)){
             //get avilable colors based on size
             $colors = DB::select('SELECT DISTINCT color FROM product_options WHERE product_id = ? AND InStock = 1 AND size = ?' , [$product->id , $request->size]);
@@ -108,7 +116,11 @@ class ProductController extends Controller
 
         ])->thenReturn();
         $products = $pipeline->paginate(8);
-        $user = $request->user('api');
+        $products->getCollection()->transform(function ($pr) {
+            $pr->ItemImage = $pr->ItemImage && file_exists('images/'.$pr->ItemImage) ? asset('images/' . $pr->ItemImage) : $pr->ItemImage;
+            return $pr;
+        });
+        
         // if(isset($user->id)){
         //     return $this->inCart($user->id , $products , $request); 
         // }
