@@ -19,10 +19,13 @@ class CreateProductsTable extends Migration
             $table->string('ItemNameEn');
             $table->string('ItemName');
             $table->string('ItemImage');
+            $table->text('ItemDesc')->nullable();
+            $table->text('ItemDescEn')->nullable();
             $table->boolean('ByWeight')->default(false);
             $table->boolean('hasOptions')->default(false);
             $table->boolean('latest')->default(false);
             $table->boolean('featured')->default(false);
+            $table->boolean('bestseller')->default(false);
             $table->unsignedFloat('vat')->default(0);
             $table->unsignedFloat('POSTP');
             $table->unsignedFloat('POSPP');

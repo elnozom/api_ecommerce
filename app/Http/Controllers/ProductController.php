@@ -43,12 +43,13 @@ class ProductController extends Controller
         // if(isset($user->id)){
             //     $product = $this->inCartProduct($user , $product);
             // }
-            if($product->hasOptions){
-                $product = $this->productOptions($request , $product);
-            }
-            
-            return response()->json($product);
+        if($product->hasOptions){
+            $product = $this->productOptions($request , $product);
         }
+        $product->ItemImage = $product->ItemImage && file_exists('images/'.$product->ItemImage) ? asset('images/' . $product->ItemImage) : $product->ItemImage;
+        
+        return response()->json($product);
+    }
 
 
     //get product options
@@ -135,13 +136,18 @@ class ProductController extends Controller
             $products = Product::where('featured' , 1)->get();
         } else if($key == 'latest'){
             $products = Product::where('latest' , 1)->get();
+        } else if($key == 'bestseller'){
+            $products = Product::where('bestseller' , 1)->get();
+            // dd($products);
         } else {
             return [];
         }
-        $user = $request->user('api');
-        // if(isset($user->id)){
-        //     return $this->inCart($user->id , $products , $request); 
-        // }
+        foreach($products as $product)
+        {
+            $product->ItemImage = $product->ItemImage && file_exists('images/'.$product->ItemImage) ? asset('images/' . $product->ItemImage) : $product->ItemImage;
+
+        }
+
         return $products; 
     }
 

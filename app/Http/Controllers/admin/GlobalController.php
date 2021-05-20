@@ -28,21 +28,24 @@ class GlobalController extends Controller
     {
         $pipeline = app(Pipeline::class)->send(Setting::query())->through([])->thenReturn();
         $settings = $pipeline->paginate(8);
-        $settings->getCollection()->transform(function ($setting) {
-            $setting->value = $setting->type === 'image' ? asset('images/' . $setting->value) : $setting->value;
-            return $setting;
-        });
+        
         
         return $settings;
     }
     public function findSetting(Request $request , $id)
+    {
+        return Setting::find($id);
+        // dd($request->all());
+    }
+
+    public function updateSetting(Request $request , $id)
     {
         $rec = Setting::find($id);
         if($rec->type === 'image'){
             //implement upload
             $this->validate($request, [
                 'value' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
+                ]);
             if ($request->hasFile('value')) {
                 $image = $request->file('value');
                 $name = $image->getClientOriginalName();
@@ -63,7 +66,7 @@ class GlobalController extends Controller
             'value_ar' => 'required',
         ]);
         $rec->value = $request->value;
-        $rec->value_ar = $request->value_ar;
+        $rec->value_ar = $rec->type == 'textarea' ? $request->value_ar : $request->value;
         $rec->save();
 
         return $rec;
