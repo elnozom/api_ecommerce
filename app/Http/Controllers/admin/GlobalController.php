@@ -6,6 +6,7 @@ use App\Banner;
 use App\Group;
 use App\Http\Controllers\Controller;
 use App\QueryFilters\BannerType;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,52 @@ class GlobalController extends Controller
         $record->delete();
         return response()->json('Deleted Sucessfully');
 
+    }
+
+    public function getSettings(Request $request)
+    {
+        $pipeline = app(Pipeline::class)->send(Setting::query())->through([])->thenReturn();
+        $settings = $pipeline->paginate(8);
+        $settings->getCollection()->transform(function ($setting) {
+            $setting->value = $setting->type === 'image' ? asset('images/' . $setting->value) : $setting->value;
+            return $setting;
+        });
+        
+        return $settings;
+    }
+    public function findSetting(Request $request , $id)
+    {
+        $rec = Setting::find($id);
+        if($rec->type === 'image'){
+            //implement upload
+            $this->validate($request, [
+                'value' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+            if ($request->hasFile('value')) {
+                $image = $request->file('value');
+                $name = $image->getClientOriginalName();
+                $extension = $image->getClientOriginalExtension();
+                $filename = $name . time() . '.' . $extension;
+                          
+                $destinationPath = public_path('/images');
+                $image->move($destinationPath, $filename);
+                $rec->value =$filename;
+                $rec->value_ar =$filename;
+                $rec->save();
+
+                return $rec;
+            }  
+        }
+        $this->validate($request, [
+            'value' => 'required',
+            'value_ar' => 'required',
+        ]);
+        $rec->value = $request->value;
+        $rec->value_ar = $request->value_ar;
+        $rec->save();
+
+        return $rec;
+        // dd($request->all());
     }
     public function banners()
     {

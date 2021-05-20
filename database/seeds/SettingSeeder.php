@@ -15,28 +15,33 @@ class SettingSeeder extends Seeder
         $settings = [
             [
                 'key' => 'logo',
-                'value_ar' => '',
-                'value' => 'images/settings/logo.png'
+                'value_ar' => 'settings/logo.png',
+                'type' => 'image',
+                'value' => 'settings/logo.png'
             ],
             [
                 'key' => 'address',
                 'value' => '3 Ibrahem Soliman from Shehab St, Mohndssen, Giza',
-                'value_ar' => '3 ابراهيم سليمان , متفرع من شارع شهاب , المهندسين , الجيزة'
+                'value_ar' => '3 ابراهيم سليمان , متفرع من شارع شهاب , المهندسين , الجيزة',
+                'type' => 'text',
             ],
             [
                 'key' => 'phone',
-                'value_ar' => '',
+                'value_ar' => '0123456789',
+                'type' => 'text',
                 'value' => ' 0123456789 '
             ],
             [
                 'key' => 'email',
-                'value_ar' => '',
-                'value' => ' info@elnozom.com '
+                'value_ar' => 'info@elnozom.com',
+                'type' => 'email',
+                'value' => ' info@elnozom.com'
             ],
             [
                 'key' => 'about',
                 'value' => ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nobis praesentium ab cupiditate dolor.',
-                'value_ar' => ' لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار'
+                'value_ar' => ' لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار',
+                'type' => 'textarea',
             ],
         ];
         Setting::insert($settings);

@@ -41,6 +41,10 @@ Route::middleware('auth:api')->group(function () {
 		Route::post('/banners/create/{type}','GlobalController@createBanner');
 		Route::post('/banners/edit/{id}','GlobalController@editBanner');
 		Route::delete('/delete/{table}/{id}','GlobalController@delete');
+		Route::prefix('settings')->group(function () {
+			Route::get('/','GlobalController@getSettings');
+			Route::put('/{key}','GlobalController@findSetting');
+		});
 		Route::prefix('products')->group(function () {
 			Route::get('/','ProductController@get');
 			Route::post('/edit/{id}','ProductController@upload');
@@ -116,11 +120,7 @@ Route::prefix('wishlist')->middleware('auth:api')->group(function(){
 	
 });
 
-Route::prefix('settings')->group(function(){
-	Route::get('/{key}','GlobalController@getSetting');
-// Route::delete('/decrease/{id}','CartController@DecreaseCartItem');
-	
-});
+
 
 Route::prefix('banners')->group(function(){
 	Route::get('/sliders','GlobalController@getSliders');
