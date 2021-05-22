@@ -43,6 +43,12 @@ class SettingSeeder extends Seeder
                 'value_ar' => ' لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار',
                 'type' => 'textarea',
             ],
+            [
+                'key' => 'facebook',
+                'value_ar' => 'https://www.facebook.com/groups/402134213138734/',
+                'type' => 'text',
+                'value' => ' info@elnozom.com'
+            ],
         ];
         Setting::insert($settings);
     }
