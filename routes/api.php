@@ -43,7 +43,8 @@ Route::middleware('auth:api')->group(function () {
 		Route::delete('/delete/{table}/{id}','GlobalController@delete');
 		Route::prefix('settings')->group(function () {
 			Route::get('/','GlobalController@getSettings');
-			Route::put('/{key}','GlobalController@findSetting');
+			Route::post('/edit/{key}','GlobalController@updateSetting');
+			Route::get('/find/{key}','GlobalController@findSetting');
 		});
 		Route::prefix('products')->group(function () {
 			Route::get('/','ProductController@get');

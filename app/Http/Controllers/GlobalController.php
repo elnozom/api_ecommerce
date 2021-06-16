@@ -21,8 +21,15 @@ class GlobalController extends Controller
 
     public function getSettings()
     {
-        return Setting::get();
+        $settings = Setting::get();
+        $val = [];
+        foreach($settings as $setting){
+            $val[$setting->key] = $setting->value;
+            $val[$setting->key.'_ar'] = $setting->value_ar;
+        }
+        return $val;
     }
+
 
     public function findSetting($key)
     {

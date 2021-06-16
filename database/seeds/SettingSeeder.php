@@ -39,10 +39,24 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'about',
-                'value' => ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nobis praesentium ab cupiditate dolor.',
-                'value_ar' => ' لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار',
+                'value' => 'A distinguished company and entity established in 1994 and has a leading role in the Egyptian market with distinguished solutions and programs that are easy to use in all retail and wholesale sectors.',
+                'value_ar' =>"شركة و كيان مميز أنشئت عام 1994 ولها دور رائد في السوق المصري بحلول وبرامج متميزة سهلة الاستخدام فى جميع قطاعات التجزئة و الجملة.",
                 'type' => 'textarea',
             ],
+            [
+                'key' => 'facebook',
+                'value_ar' => 'https://www.facebook.com/ElNozomSystems/',
+                'type' => 'text',
+                'value' => 'https://www.facebook.com/ElNozomSystems/'
+            ],
+            [
+                'key' => 'instagram',
+                'value_ar' => 'https://www.instagram.com/elnozomeg/',
+                'type' => 'text',
+                'value' => 'https://www.instagram.com/elnozomeg/
+                '
+            ],
+
         ];
         Setting::insert($settings);
     }
