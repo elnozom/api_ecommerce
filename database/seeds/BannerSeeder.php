@@ -13,13 +13,13 @@ class BannerSeeder extends Seeder
     public function run()
     {
         $sliders = [
-            ['image' => 'sliders/01.jpg'],
-            ['image' => 'sliders/02.jpg'],
-            ['image' => 'sliders/03.jpg'],
+            ['image' => 'clothes/sliders/01.webp'],
+            ['image' => 'clothes/sliders/02.webp'],
+            ['image' => 'clothes/sliders/03.webp'],
         ];
         $banners = [
-            ['image' => 'sliders/banners/01.png', 'type' => 1],
-            ['image' => 'sliders/banners/02.png', 'type' => 1],
+            ['image' => 'clothes/banners/01.webp', 'type' => 1],
+            ['image' => 'clothes/banners/02.webp', 'type' => 1],
         ];
 
         Banner::insert($sliders);
