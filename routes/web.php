@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Http;
 */
 
 Route::get('/', function () {
-    
+    // test
     return view('welcome');
 });
