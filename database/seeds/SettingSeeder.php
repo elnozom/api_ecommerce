@@ -27,9 +27,9 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'phone',
-                'value_ar' => '0123456789',
+                'value_ar' => '02 33041499',
                 'type' => 'text',
-                'value' => ' 0123456789 '
+                'value' => ' 02 33041499 '
             ],
             [
                 'key' => 'email',
