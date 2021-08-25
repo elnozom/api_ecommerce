@@ -12,14 +12,10 @@ class GroupSeeder extends Seeder
      */
     public function run()
     {
-        
         $groups = [
-            [ "icon" => "paper-roll" , "Home" => 1 , "GroupNameEn"=> "7.9 cashier thermal paper" , "GroupName"=>"ورق طابعات كاشير حراري 7.9 سم ", "image" => null , "FatherCode"=>null, "Featured" => 1],
-            [ "icon" => "paper-roll-outline" , "Home" => 1 , "GroupNameEn"=> "5.7cm thermal paper" , "GroupName"=>"ورق حراري 5.7","FatherCode"=>null, "image" => null , "Featured" => 1],
-            [ "icon" => "sticker-circle-outline" , "Home" => 1 , "GroupNameEn"=> "Sticker rolls" , "GroupName"=>"ورق لصق للموازيين و الباركود","FatherCode"=>null, "image" => null , "Featured" => 1],
+            [ "icon" => "paper-roll" , "Home" => 1 , "GroupNameEn"=> "Thermal Paper products" , "GroupName"=>"الورق الحراري ", "image" => null , "FatherCode"=>null, "Featured" => 1],
+            [ "icon" => "desktop-classic" , "Home" => 1 , "GroupNameEn"=> "Hardware for retail" , "GroupName"=>"هارد وير","FatherCode"=>null, "image" => null , "Featured" => 1],
         ];
-        
-            Group::insert($groups);
-        
+        Group::insert($groups);
     }
 }

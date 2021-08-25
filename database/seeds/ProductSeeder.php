@@ -14,342 +14,41 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {     
-        // $items = [
-        //     [   'ItemNameEn' => 'Slim Fit Gabardine Chino Trousers',
-        //         'InStock' => 1 ,
-        //         "hasOptions" => 1,            
-        //         'latest' => 1 ,
-        //         'featured' => 0 ,
-        //         'ItemImage' => 'https://lcw.akinoncdn.com/products/2019/12/27/1145924/882cd5f3-63f6-48f0-aa96-b16e35d9cee0_size265x353_cropCenter.jpg',
-        //         'ByWeight' => 0,
-        //         'POSPP' => 265 ,
-        //         'minorPerMajor' => 1,
-        //         'POSTP' => 265,
-        //         'GroupCode' => 1,
-        //         'ItemName' => 'سروال شينو'
-        //     ],
-        //     [   'ItemNameEn' => 'Polo Neck Basic Short Sleeve Pique T-Shirt',
-        //         'InStock' => 1 ,
-        //         'latest' => 1 ,
-        //         "hasOptions" =>1,
-        //         'featured' => 0 ,
-        //         'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/09/23/1184008/e2b976b8-e15c-4305-bc1e-7d5022853d55_size265x353_cropCenter.jpg',
-        //         'ByWeight' => 0,
-        //         'POSPP' => 350 ,
-        //         'minorPerMajor' => 1,
-        //         'POSTP' => 350,
-        //         'GroupCode' => 1,
-        //         'ItemName' => 'قميص بولو'
-        //     ],
-        //     [   'ItemNameEn' => 'Trousers',
-        //         'InStock' => 1 ,
-        //         'latest' => 1 ,
-        //         "hasOptions" => 1,
-        //         'featured' => 0 ,
-        //         'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/09/23/1350579/8aabd569-178d-4e6f-a8ac-b83ec03319d4_size561x730.jpg',
-        //         'ByWeight' => 0,
-        //         'POSPP' => 300 ,
-        //         'minorPerMajor' => 1,
-        //         'POSTP' => 300,
-        //         'GroupCode' => 2,
-        //         'ItemName' => 'سروال'
-        //     ],
-        //     [   'ItemNameEn' => 'Applique Printed Straight Fit Maxi Dress',
-        //         'InStock' => 1 ,
-        //         'latest' => 1 ,
-        //         "hasOptions" => 1,
-        //         'featured' => 0 ,
-        //         'ItemImage' => 'https://lcw.akinoncdn.com/products/2020/07/01/1402079/e260ce00-1026-4ab1-a3cb-97940bcfc251_size561x730.jpg',
-        //         'ByWeight' => 0,
-        //         'POSPP' => 350 ,
-        //         'minorPerMajor' => 1,
-        //         'POSTP' => 300,
-        //         'GroupCode' => 2,
-        //         'ItemName' => 'فستان'
-        //     ],
-        // ];
-
-        // $options = [
-        //     [
-        //         'images' => [
-        //                         ['product_id' => 1,'color' => '171614' ,'image' =>'https://lcw.akinoncdn.com/products/2020/09/23/1146799/61c62e89-be93-413d-a6f7-bb59ea0c29f6_quality90.jpg'],
-        //                         ['product_id' => 1,'color' => '171614' ,'image' =>    'https://lcw.akinoncdn.com/products/2020/09/23/1152116/c7039f50-ab3f-4be7-ae63-1a7c11c02898_quality90.jpg'],
-        //                         ['product_id' => 1,'color' => '6f684b' ,'image' =>    'https://lcw.akinoncdn.com/products/2019/12/27/1145924/882cd5f3-63f6-48f0-aa96-b16e35d9cee0_quality90.jpg'],
-        //                         ['product_id' => 1,'color' => '6f684b' ,'image' => 'https://lcw.akinoncdn.com/products/2019/12/27/1145925/00118536-9637-4840-bb4e-f225034fdb4c_quality90.jpg']
-        //                     ], 
-        //         'options' => [
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '31',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-
-        //                         ],
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '36',
-        //                             'product_id' => 1,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '32',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-
-        //                         ],
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '33',
-        //                             'product_id' => 1,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '34',
-        //                             'product_id' => 1,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '171614',
-        //                             'size' => '35',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-
-        //                         ],
-        //                         [
-        //                             'color' => '6f684b',
-        //                             'size' => '31',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-        //                         ],
-        //                         [
-        //                             'color' => '6f684b',
-        //                             'size' => '36',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-        //                         ],
-        //                         [
-        //                             'color' => '6f684b',
-        //                             'size' => '37',
-        //                             'product_id' => 1,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '6f684b',
-        //                             'size' => '38',
-        //                             'product_id' => 1,
-        //                             'InStock' => 1,
-        //                         ],
-        //                     ]
-                    
-        //     ],
-        //     [
-        //         'images' => [
-        //                         ['product_id' => 2,'color' => '374c47' ,'image' =>'https://lcw.akinoncdn.com/products/2020/09/23/1184008/e2b976b8-e15c-4305-bc1e-7d5022853d55_size561x730.jpg'],
-        //                         ['product_id' => 2,'color' => '374c47' ,'image' => 'https://lcw.akinoncdn.com/products/2020/09/23/1190250/aca97ef0-2e84-4d9a-97b1-fa6866ee9fa1_quality90.jpg'],
-        //                         ['product_id' => 2,'color' => '2a5ba7' ,'image' => 'https://lcw.akinoncdn.com/products/2020/09/23/1183515/a53825c6-24a4-41d8-b44d-6ff0686e832b_quality90.jpg'],
-        //                         ['product_id' => 2,'color' => '2a5ba7' ,'image' => 'https://lcw.akinoncdn.com/products/2020/09/23/1183506/175c1f2a-6eb1-46f7-98a8-6c6e348dca13_quality90.jpg']
-        //                     ],
-        //         'options' => [
-        //                         [
-        //                             'color' => '374c47',
-        //                             'size' => '32',
-        //                             'product_id' => 2,
-        //                             'InStock' => 1,
-
-        //                         ],
-        //                         [
-        //                             'color' => '374c47',
-        //                             'size' => '33',
-        //                             'product_id' => 2,
-                                    
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '374c47',
-        //                             'size' => '34',
-        //                             'product_id' => 2,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '374c47',
-        //                             'size' => '35',
-        //                             'product_id' => 2,
-        //                             'InStock' => 1,
-
-        //                         ],
-        //                         [
-        //                             'color' => '2a5ba7',
-        //                             'size' => '31',
-        //                             'product_id' => 2,
-        //                             'InStock' => 1,
-        //                         ],
-        //                         [
-        //                             'color' => '2a5ba7',
-        //                             'size' => '36',
-        //                             'InStock' => 1,
-
-        //                             'product_id' => 2,
-        //                         ],
-        //                         [
-        //                             'color' => '2a5ba7',
-        //                             'size' => '37',
-        //                             'product_id' => 2,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '2a5ba7',
-        //                             'size' => '38',
-        //                             'InStock' => 1,
-        //                             'product_id' => 2,
-                                    
-        //                         ],
-        //                         ]
-        //                     ],
-        //     [
-        //         'product_id' => 3,
-        //         'images' => [
-        //                         ['product_id' => 3,'color' => 'e2bca2' ,'image' =>'https://lcw.akinoncdn.com/products/2020/09/23/1349468/64c84f16-c87c-4cd1-b83f-91f829d98e62_size561x730.jpg'],
-        //                         ['product_id' => 3,'color' => 'e2bca2' ,'image' => 'https://lcw.akinoncdn.com/products/2020/09/23/1349483/ed8795f3-fc65-44cf-9cf5-babd5b930513_size561x730.jpg'],
-        //                         ['product_id' => 3,'color' => '15150d' ,'image' => 'https://lcw.akinoncdn.com/products/2020/01/20/1350203/e4918c74-d832-43d5-8533-3c3192847305_size561x730.jpg'],
-        //                         ['product_id' => 3,'color' => '15150d' ,'image' => 'https://lcw.akinoncdn.com/products/2020/01/20/1350203/a2ed4901-24bd-4804-b83f-05af74ae05d4_size561x730.jpg']
-        //                     ],
-        //         'options' => [
-        //                         [
-        //                             'color' => 'e2bca2',
-        //                             'size' => '32',
-        //                             'product_id' => 3,
-        //                             'InStock' => 0
-
-        //                         ],
-        //                         [
-        //                             'color' => 'e2bca2',
-        //                             'size' => '33',
-        //                             'product_id' => 3,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => 'e2bca2',
-        //                             'size' => '34',
-        //                             'product_id' => 3,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => 'e2bca2',
-        //                             'size' => '35',
-        //                             'product_id' => 3,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '15150d',
-        //                             'size' => '31',
-        //                             'product_id' => 3,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '15150d',
-        //                             'size' => '36',
-        //                             'product_id' => 3,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '15150d',
-        //                             'size' => '37',
-        //                             'product_id' => 3,
-        //                             'InStock' => 0,
-
-        //                         ],
-        //                         [
-        //                             'color' => '15150d',
-        //                             'size' => '38',
-        //                             'product_id' => 3,
-        //                             'InStock' => 0
-        //                         ],
-        //                      ]
-        //     ],
-        //     [
-        //         'product_id' => 4,
-        //         'images' => [
-        //                     ['product_id' => 4,'color' => '1f1c15' , 'image' =>'https://lcw.akinoncdn.com/products/2020/07/01/1402079/e260ce00-1026-4ab1-a3cb-97940bcfc251_size561x730.jpg'],
-        //                     ['product_id' => 4,'color' => '1f1c15' , 'image' => 'https://lcw.akinoncdn.com/products/2020/07/01/1402079/e260ce00-1026-4ab1-a3cb-97940bcfc251_size561x730.jpg'],
-        //                     ['product_id' => 4,'color' => '1f1c15' , 'image' => 'https://lcw.akinoncdn.com/products/2020/07/01/1432386/65f60ad1-6e81-4be0-8fe9-c329a652c12f_size561x730.jpg'],
-        //                 ], 
-        //         'options' => [
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '32',
-        //                             'product_id' => 4,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '33',
-        //                             'product_id' => 4,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '34',
-        //                             'product_id' => 4,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '35',
-        //                             'product_id' => 4,
-        //                             'InStock' => 1
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '31',
-        //                             'product_id' => 4,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '36',
-        //                             'product_id' => 4,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '37',
-        //                             'product_id' => 4,
-        //                             'InStock' => 0
-        //                         ],
-        //                         [
-        //                             'color' => '1f1c15',
-        //                             'size' => '38',
-        //                             'product_id' => 4,
-        //                             'InStock' => 0
-        //                         ],
-        //                     ]
-        //     ],
-        // ];
-        // Product::insert($items);
-        
-
-        // foreach($options as $option){            
-        //     ProductImage::insert($option['images'] );
-        //     ProductOption::insert($option['options']);
-        // }
         
         $items = [
-            ['GroupCode' => 1 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '25M 79mm Thermal Paper roll for Cashier', 'ItemName' => 'بكر حراري 25 متر  7.9 سم لطابعات الكاشير', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '540', 'POSPP' => '540', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 1 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '55M 79mm Thermal Paper roll for Cashier', 'ItemName' => 'بكر حراري 55 متر  7.9 سم لطابعات الكاشير', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '528', 'POSPP' => '528', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 1 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '70M 79mm Thermal Paper roll for Cashier 48 roll box', 'ItemName' => 'بكر حراري 70 متر  7.9 سم لطابعات الكاشير كارتونة 48 بكرة', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '504', 'POSPP' => '504', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 1 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '70M 79mm Thermal Paper roll for Cashier 60 roll box', 'ItemName' => 'بكر حراري 70 متر  7.9 سم لطابعات الكاشير كارتونة 60 بكرة', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '630', 'POSPP' => '630', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 2 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '14M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 14 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '283.71', 'POSPP' => '283.71', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 2 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '16M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 16 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '282.48', 'POSPP' => '282.48', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 2 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '18M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 18 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '317.52', 'POSPP' => '317.52', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 2 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '28M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 28 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '352.8', 'POSPP' => '352.8', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 2 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '40M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 40 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '336', 'POSPP' => '336', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 3 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '4*6 cm 450 Label thermal sticker roll (For Barcode Scales)', 'ItemName' => 'بكر لاصق 4*6 سم 450 ملصق (لموازين البار كود)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '1100', 'POSPP' => '1100', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 3 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => '4*5 cm 450 Label thermal sticker roll (For Barcode Scales)', 'ItemName' => 'بكر لاصق 4*5 سم 450 ملصق (لموازين البار كود)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '1000', 'POSPP' => '1000', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 3 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => 'Barcode thermal printer labels roll 4*2.5cm 1500 label (non-Splited)', 'ItemName' => 'بكر لاصق لطابعات الباركود 1500 ملصق 4*2.5سم (غير مقسوم)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '1344', 'POSPP' => '1344', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            ['GroupCode' => 3 ,"ItemDesc" => "محتوي الكرتونة : 100 بكرة", "ItemDescEn" => "the box contains : 100 rolls", 'ItemNameEn' => 'Barcode thermal printer labels roll 4*2.5cm 1500 label (Splited)', 'ItemName' => 'بكر لاصق لطابعات الباركود 1500 ملصق 4*2.5سم ( مقسوم)', 'ItemImage' => 'products/pr01.jpg', 'ByWeight' => '0', 'latest' => '1', 'bestseller' => '1' , 'vat' => '0', 'POSTP' => '1344', 'POSPP' => '1344', 'MinorPerMajor' => '1', 'ActiveItem' => '1', 'InStock' => '1'],
-            
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '25M 79mm Thermal Paper roll for Cashier', 'ItemName' => 'بكر حراري 25 متر  7.9 سم لطابعات الكاشير', 'ItemImage' => 'products/22.png', 'POSTP' => '561.6', 'POSPP' => '3.9', 'MinorPerMajor' => '144', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '55M 79mm Thermal Paper roll for Cashier', 'ItemName' => 'بكر حراري 55 متر  7.9 سم لطابعات الكاشير', 'ItemImage' => 'products/27.png', 'POSTP' => '576', 'POSPP' => '9', 'MinorPerMajor' => '64', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '70M 79mm Thermal Paper roll for Cashier 60 roll box', 'ItemName' => 'بكر حراري 70 متر  7.9 سم لطابعات الكاشير كارتونة 60 بكرة', 'ItemImage' => 'products/28.png', 'POSTP' => '660', 'POSPP' => '11', 'MinorPerMajor' => '60', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '14M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 14 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/29.png', 'POSTP' => '326.4', 'POSPP' => '1.7', 'MinorPerMajor' => '192', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '16M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 16 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/30.png', 'POSTP' => '319.2', 'POSPP' => '1.9', 'MinorPerMajor' => '168', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '18M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 18 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/31.png', 'POSTP' => '361.2', 'POSPP' => '2.15', 'MinorPerMajor' => '168', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '28M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 28 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/23.png', 'POSTP' => '403.2', 'POSPP' => '3.36', 'MinorPerMajor' => '120', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '40M 57mm Thermal Paper roll for Small Printers (Fawry POS)', 'ItemName' => 'بكر حراري 40 متر 5.7 سم للطابعات الصغيرة (ماكينات فوري)', 'ItemImage' => 'products/24.png', 'POSTP' => '384', 'POSPP' => '4.8', 'MinorPerMajor' => '80', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '4*6 cm 450 Label thermal sticker roll (For Barcode Scales)', 'ItemName' => 'بكر لاصق 4*6 سم 450 ملصق (لموازين البار كود)', 'ItemImage' => 'products/25.png', 'POSTP' => '1150', 'POSPP' => '11.5', 'MinorPerMajor' => '100', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => '4*5 cm 450 Label thermal sticker roll (For Barcode Scales)', 'ItemName' => 'بكر لاصق 4*5 سم 450 ملصق (لموازين البار كود)', 'ItemImage' => 'products/26.png', 'POSTP' => '1050', 'POSPP' => '10.5', 'MinorPerMajor' => '100', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'Barcode thermal printer labels roll 4*2.5cm 1500 label (non-Splited)', 'ItemName' => 'بكر لاصق لطابعات الباركود 1500 ملصق 4*2.5سم (غير مقسوم)', 'ItemImage' => 'products/32.png', 'POSTP' => '1344', 'POSPP' => '16', 'MinorPerMajor' => '84', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'Barcode thermal printer labels roll 4*2.5cm 1500 label (Splited)', 'ItemName' => 'بكر لاصق لطابعات الباركود 1500 ملصق 4*2.5سم ( مقسوم)', 'ItemImage' => 'products/33.png', 'POSTP' => '1344', 'POSPP' => '16', 'MinorPerMajor' => '84', 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 1],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'Datalogic Magellan MultiDimensional Rays Barcode Scanner', 'ItemName' => 'قارئ باركود ماجيلان من داتا لوجيك متعدد الأشعة', 'ItemImage' => 'products/1.png', 'POSTP' => '4950', 'POSPP' => '4950', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'Datalogic QuickScan lite Handheld Barcode Scanner', 'ItemName' => 'قارئ باركود كفي كويك سكان من داتا لوجيك', 'ItemImage' => 'products/2.png', 'POSTP' => '975', 'POSPP' => '975', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'SunMi-POSThings certified HandHeld 2D Imager', 'ItemName' => 'سن مي - بي او اس ثيجز قارئ باركود كفي ثنائي الأبعاد', 'ItemImage' => 'products/3.png', 'POSTP' => '999', 'POSPP' => '999', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '0' ,'ItemNameEn' => 'POSThings MultiDimensional Standing Barcode Scanner', 'ItemName' => 'بي او اس ثينجز قارئ باركود مكتبي متعدد الأبعاد', 'ItemImage' => 'products/4.png', 'POSTP' => '3950', 'POSPP' => '3950', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Dibal OPOS compatible Checkout scale', 'ItemName' => 'ميزان تشك اوت يعمل مع نظام اوبوس من ديبال', 'ItemImage' => 'products/5.png', 'POSTP' => '5500', 'POSPP' => '5500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Mettler Toledo Ariva checkout scales - OPOS compatible', 'ItemName' => 'ميزان تشك اوت اريفا يعمل مع نظام اوبوس من ميتلر توليدو', 'ItemImage' => 'products/6.png', 'POSTP' => '7500', 'POSPP' => '7500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Rongata RLS Series Labeling scale 6x4', 'ItemName' => 'ميزان بار كود 6*4 طراز RLS من رونجتا', 'ItemImage' => 'products/16.png', 'POSTP' => '7500', 'POSPP' => '7500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Dibal DFS Series Labeling scale', 'ItemName' => 'ميزان بار كود يعمل مع DFS من ديبال', 'ItemImage' => 'products/17.png', 'POSTP' => '14500', 'POSPP' => '14500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings MCR Labeling scale', 'ItemName' => 'ميزان باركود من بي او اس ثينجز طراز MCR', 'ItemImage' => 'products/18.png', 'POSTP' => '6500', 'POSPP' => '6500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Star TSP100 Series 80mm Receipt printer', 'ItemName' => 'طابعة حرارية 80 مم TSP100 من ستار', 'ItemImage' => 'products/21.png', 'POSTP' => '2500', 'POSPP' => '2500', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings PT80C 80mm Receipt printer', 'ItemName' => 'طابعة حرارية 80 مم PT80C من بي او اس ثينجز', 'ItemImage' => 'products/20.png', 'POSTP' => '1400', 'POSPP' => '1400', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings Essensials Cash Drawer', 'ItemName' => 'درج النقدية اسينشالز من بي او اس ثينجز', 'ItemImage' => 'products/19.png', 'POSTP' => '600', 'POSPP' => '600', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Price Checker hardware Kit by POSThings', 'ItemName' => 'مجموعة مستكشف الأسعار من بي او اس ثينجز', 'ItemImage' => 'products/7.png', 'POSTP' => '3999', 'POSPP' => '3999', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Honeywell EDA51 Handheld Computer', 'ItemName' => 'كمبيوتر كفي EDA51 من هاني ويل', 'ItemImage' => 'products/8.png', 'POSTP' => '6250', 'POSPP' => '6250', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings 15 inch touch screen for Retail purposes', 'ItemName' => 'شاشة تعمل باللمس الحراري 15 بوصة من بي او اس ثينجز', 'ItemImage' => 'products/9.png', 'POSTP' => '3000', 'POSPP' => '3000', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Diebold Nexdorf Beetle German All in one Point of sale computer 15 inch', 'ItemName' => 'كمبيوتر الكل في واحد لنقاط البيع 15 بوصة يعمل باللمس من دايبولد نيكسدورف', 'ItemImage' => 'products/10.png', 'POSTP' => '25000', 'POSPP' => '25000', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => '0', 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Elo All in one point of sale computer 14 inch', 'ItemName' => 'كمبيوتر الكل في واحد لنقاط البيع 14 بوصة يعمل باللمس من ايلو', 'ItemImage' => 'products/11.png', 'POSTP' => '9999', 'POSPP' => '9999', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => '0', 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Dell Optiplex POS Ready small PC', 'ItemName' => 'جهاز كمبيوتر لنقاط البيع اوبتيبليكس من ديل', 'ItemImage' => 'products/12.png', 'POSTP' => '1999', 'POSPP' => '1999', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'Multipurpose Display', 'ItemName' => 'شاشة متعددة الأغراض', 'ItemImage' => 'products/13.png', 'POSTP' => '750', 'POSPP' => '750', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings Computing kit', 'ItemName' => 'مجموعة الكمبيوتر من بي او اس ثينجز', 'ItemImage' => 'products/14.png', 'POSTP' => '2999', 'POSPP' => '2999', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
+            [ 'latest' => '1', 'bestseller' => '1' ,'ItemNameEn' => 'POSThings Complete POS Starter Kit', 'ItemName' => 'المجموعة الكاملة لنقاط البيع من بي او اس ثينجز', 'ItemImage' => 'products/15.png', 'POSTP' => '5950', 'POSPP' => '5950', 'MinorPerMajor' => 1, 'ActiveItem' => 1, 'InStock' => 1, 'GroupCode' => 2],
         ];
         Product::insert($items);
       }
