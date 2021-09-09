@@ -24,80 +24,99 @@ class GetProducts extends Migration
             IN `Page` SMALLINT(6),
             OUT `CountRecords` SMALLINT(6)
         ) BEGIN DECLARE PriceFromCond VARCHAR(100) DEFAULT '';
-        
-        DECLARE PriceToCond VARCHAR(100) DEFAULT '';
-        
-        DECLARE GroupCond VARCHAR(100) DEFAULT '';
-        
-        DECLARE SearchCond VARCHAR(200) DEFAULT '';
-        
-        IF PriceFrom IS NOT NULL THEN
-        SET
-            PriceFromCond = CONCAT(' AND price >= ', PriceFrom);
-        
-        END IF;
-        
-        IF PriceTo IS NOT NULL THEN
-        SET
-            PriceToCond = CONCAT(' AND price <= ', PriceTo);
-        
-        END IF;
-        
-        #ItemNameEn
-        #ItemName
-        #ItemNameEnWhole
-        #ItemNameWhole
-        #ItemDesc
-        #ItemDescEn
-        IF Search IS NOT NULL THEN
-        SET
-            SearchCond = CONCAT(
-                ' AND (ItemNameEn LIKE \"%',
-                Search,
-                '%\" OR ItemName LIKE \"%',
-                Search,
-                '%\" OR ItemNameEnWhole LIKE \"%',
-                Search,
-                '%\" OR ItemNameWhole LIKE \"%',
-                Search,
-                '%\")'
-            );
-        
-        END IF;
-        
-        IF GroupCode IS NOT NULL THEN
-        SET
-            GroupCond = CONCAT(' AND GroupCode = ', GroupCode);
-        
-        END IF;
-        
-        SET
-            @query = CONCAT(
-                'SELECT id , GroupCode , ItemNameEn , ItemName ,  ItemNameEnWhole , ItemNameWhole ,(CONCAT( \"',
-                ImagePrefix,
-                '/\" ,  ItemImage)) ItemImage ,(CONCAT( \"',
-                ImagePrefix,
-                '/\" ,  ItemImageWhole)) ItemImageWhole, ItemDesc , ItemDescEn , ByWeight , hasOptions , latest , featured , bestseller , price , MinorPerMajor , ActiveItem , InStock , whole FROM products_view WHERE 1 = 1',
-                SearchCond,
-                PriceFromCond,
-                PriceToCond,
-                GroupCond,
-                \" LIMIT 8 OFFSET \" , IF(Page > 1 ,8 * Page , 0));
-        
-            
-            
-        #SELECT @query;   
-        PREPARE stmt FROM @query;
-        EXECUTE stmt;
-        DEALLOCATE PREPARE stmt;
-          
-          SELECT COUNT(*)
-            INTO CountRecords
-            FROM products_view WHERE 1 = 1 ;
-        
-        
-            
-        END
+
+DECLARE PriceToCond VARCHAR(100) DEFAULT '';
+
+DECLARE GroupCond VARCHAR(100) DEFAULT '';
+
+DECLARE SearchCond TEXT DEFAULT '';
+
+IF PriceFrom IS NOT NULL THEN
+SET
+    PriceFromCond = CONCAT(' AND price >= ', PriceFrom);
+
+END IF;
+
+IF PriceTo IS NOT NULL THEN
+SET
+    PriceToCond = CONCAT(' AND price <= ', PriceTo);
+
+END IF;
+
+
+IF Search IS NOT NULL THEN
+SET
+    SearchCond = CONCAT(
+        ' AND (ItemNameEn LIKE " % ',
+        Search,
+        ' % " OR ItemName LIKE " % ',
+        Search,
+        ' % " OR ItemNameEnWhole LIKE " % ',
+        Search,
+        ' % " OR ItemNameWhole LIKE " % ',
+        Search,
+        ' % ")'
+    );
+
+END IF;
+
+IF GroupCode IS NOT NULL THEN
+SET
+    GroupCond = CONCAT(' AND GroupCode = ', GroupCode);
+
+END IF;
+
+SET
+    @query = CONCAT(
+        'SELECT id , GroupCode , ItemNameEn , ItemName ,  ItemNameEnWhole , ItemNameWhole ,(CONCAT( \"',
+        ImagePrefix,
+        '/\" ,  ItemImage)) ItemImage ,(CONCAT( \"',
+        ImagePrefix,
+        '/\" ,  ItemImageWhole)) ItemImageWhole, ItemDesc , ItemDescEn , ByWeight , hasOptions , latest , featured , bestseller , price , MinorPerMajor , ActiveItem , InStock , whole FROM products_view WHERE 1 = 1',
+        SearchCond,
+        PriceFromCond,
+        PriceToCond,
+        GroupCond,
+        \" LIMIT 8 OFFSET \",
+        IF(Page > 1, 8 * (Page - 1), 0)
+    );
+
+
+
+SET @CounQ = CONCAT('SELECT
+    COUNT(*) INTo @count
+FROM
+    products_view
+WHERE
+    1 =1 ',
+     SearchCond,
+        PriceFromCond,
+        PriceToCond,
+        GroupCond
+      );
+
+
+PREPARE stmt2 FROM  @CounQ;
+EXECUTE  stmt2;
+DEALLOCATE PREPARE stmt2;
+SET CountRecords =  @Count;
+
+
+PREPARE stmt
+FROM
+    @query;
+
+EXECUTE stmt;
+
+DEALLOCATE PREPARE stmt;
+
+
+
+   
+
+
+
+END
 ");
     }
 
