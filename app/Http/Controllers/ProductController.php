@@ -47,6 +47,7 @@ class ProductController extends Controller
             $product = $this->productOptions($request , $product);
         }
         $product->ItemImage = $product->ItemImage && file_exists('images/'.$product->ItemImage) ? asset('images/' . $product->ItemImage) : $product->ItemImage;
+        $product->ItemImageWhole = $product->ItemImageWhole && file_exists('images/'.$product->ItemImageWhole) ? asset('images/' . $product->ItemImageWhole) : $product->ItemImageWhole;
         
         return response()->json($product);
     }
@@ -106,38 +107,25 @@ class ProductController extends Controller
     }
     public function list(ListProductRequest $request)
     {
-        // dd((int)$request->byWeight);
-        $pipeline = app(Pipeline::class)->send(Product::query())->through([
-            ByWeight::class,
-            PriceFrom::class,
-            PriceTo::class,
-            Search::class,
-            Sort::class,
-            GroupCode::class,
-
-        ])->thenReturn();
-        $products = $pipeline->paginate(8);
-        $products->getCollection()->transform(function ($pr) {
-            $pr->ItemImage = $pr->ItemImage && file_exists('images/'.$pr->ItemImage) ? asset('images/' . $pr->ItemImage) : $pr->ItemImage;
-            return $pr;
-        });
-        
-        // if(isset($user->id)){
-        //     return $this->inCart($user->id , $products , $request); 
-        // }
-        return $products;
+        $PriceFrom = $request->PriceFrom ? $request->PriceFrom : null;
+        $PriceTo = $request->PriceTo ? $request->PriceTo : null;
+        $Search = $request->Search ? $request->Search : null;
+        $page = $request->page ?  $request->page : 1;
+        $GroupCode = $request->group ? $request->group : null;
+        $products =DB::select("CALL GetProducts(? , ? , ? , ? , ? , ? , @CountRecords ) " , [$Search , asset('images/') , $PriceFrom , $PriceTo ,$GroupCode,$page  ]);
+        $count = DB::select('select @CountRecords as count')[0]->count;
+        $last = ceil($count / 8);
+        $result = ['data' => $products , 'total' => $count , 'last_page' => $last];
+        return $result;
     }
-
-    
-
     public function listHome($key , Request $request)
     {
         if($key == 'featured'){
-            $products = Product::where('featured' , 1)->get();
+            $products = DB::select("SELECT * FROM products_view WHERE featured = 1");
         } else if($key == 'latest'){
-            $products = Product::where('latest' , 1)->get();
+            $products = DB::select("SELECT * FROM products_view WHERE latest = 1");
         } else if($key == 'bestseller'){
-            $products = Product::where('bestseller' , 1)->get();
+            $products = DB::select("SELECT * FROM products_view WHERE bestseller = 1");
             // dd($products);
         } else {
             return [];

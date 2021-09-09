@@ -13,7 +13,7 @@ class BannerSeeder extends Seeder
     public function run()
     {
         $sliders = [
-            ['image' => 'sliders/01.webp'],
+            ['image' => 'sliders/01.png'],
             ['image' => 'sliders/02.jpg'],
             ['image' => 'sliders/03.jpg'],
         ];

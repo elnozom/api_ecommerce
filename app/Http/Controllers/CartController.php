@@ -30,23 +30,15 @@ class CartController extends Controller
         // dd($cart);
         $products = DB::select(
                     "SELECT 
-                        p.* ,
-                        cp.price ,
-                        cp.cart_id ,
-                        cp.image,
-                        (SELECT size FROM product_options WHERE id = cp.option_id LIMIT 1) size,
-                        (SELECT color FROM product_options WHERE id = cp.option_id LIMIT 1) color,
-                        cp.qty 
-                        FROM cart_product cp 
-                        JOIN products p 
-                            ON cp.product_id = p.id
-                        WHERE cp.cart_id = ?
-                        AND cp.deleted_at IS NULL" , [$cart->id]);
+                       * 
+                        FROM cart_view cv 
+                        WHERE cv.cart_id = ?
+                        AND cv.deleted_at IS NULL" , [$cart->id]);
         // dd($products);
         
         if(count($products) > 0){
             $cart->products = $products;
-            $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_product WHERE cart_id = ? AND deleted_at IS NULL" ,[ $cart->id])[0]->subtotal;
+            $subtotal = DB::select("SELECT SUM(price * qty) subtotal FROM cart_view WHERE cart_id = ? AND deleted_at IS NULL" ,[ $cart->id])[0]->subtotal;
             // dd($subtotal);   
             $discountVal = 0;
             if($cart->discount_code != null){
@@ -63,6 +55,7 @@ class CartController extends Controller
             foreach($cart->products as $pr){
                 $pr->image = $pr->image && file_exists('images/'.$pr->image) ? asset('images/' . $pr->image) : $pr->image;
                 $pr->ItemImage = $pr->ItemImage && file_exists('images/'.$pr->ItemImage) ? asset('images/' . $pr->ItemImage) : $pr->ItemImage;
+                $pr->ItemImageWhole = $pr->ItemImageWhole && file_exists('images/'.$pr->ItemImageWhole) ? asset('images/' . $pr->ItemImageWhole) : $pr->ItemImageWhole;
             }
             $cart->subtotal = $subtotal;
             $cart->total = $subtotal - $discountVal +  $cart->shipping;
@@ -159,25 +152,32 @@ class CartController extends Controller
         if($cart == null){
             $cart = $this->init($id);
         }
+        $whole = $request->whole ?  $request->whole : false;
         
         $option =isset($request->color) && isset($request->size) ? DB::select('SELECT id FROM product_options WHERE size = ? AND color = ?' , [$request->size , $request->color])[0] : null;
-        $this->setProducts($cart->id , $request->product , $option , $request->qty);
+        $this->setProducts($cart->id , $request->product , $option , $request->qty , $whole);
         return response()->json(['success' => 'true' , 'message' => 'added to cart successfully']);
     }
     private function init($id){
         $cart = Cart::create(['user_id' => $id]);
         return $cart;
     }
-    private function setProducts($cart  , $product , $option , $qty ){
+    private function setProducts($cart  , $product , $option , $qty , $whole = false){
         // dd($product);
-        $qty = $qty == null ? 1 : $qty;
         $product = Product::where('id' , $product)->first();
-        $cartProduct = CartProduct::where('product_id' , $product->id)->where('cart_id' , $cart)->first();
+        $cartProduct = CartProduct::where('product_id' , $product->id)->where('whole' , $whole)->where('cart_id' , $cart)->first();
+        if($cartProduct != null) $whole = $cartProduct->whole;
+        if(!$whole){
+            $qty = $qty == null ? 1 : $qty;
+            $price = $product->POSPP;
+        } else {
+            $price = $product->POSTP;
+            $qty = $qty == null ? $product->MinorPerMajor : $product->MinorPerMajor * $qty;
+        }
         $optionId = null;
         $image = null;
         if($option !== null) {
             $option = ProductOption::find($option->id);
-            // dd($option);
             $image = ProductImage::where('product_id' , $product->id)->where('color' , $option->color)->first();
             $image = $image !== null ? $image->image : null;
             $optionId = $option->id;
@@ -192,8 +192,10 @@ class CartController extends Controller
             "product_id" => $product->id,
             "option_id" => $optionId,
             "image" => $image,
-            "price" => $product->POSPP,
+            "price" => $price,
+            "MinorPerMajor" => $product->MinorPerMajor,
             "qty" => $qty,
+            "whole" => $whole
         ];
         // dd($rec);
         CartProduct::create($rec);
@@ -219,6 +221,9 @@ class CartController extends Controller
         $userId = $request->user()->id;
         $cart = Cart::where('user_id' , $userId)->cart()->first();
         $cp = CartProduct::where('cart_id' , $cart->id)->where('product_id' , $id)->first();
+        if($cp->whole){
+            $request->qty =  $request->qty * $cp->MinorPerMajor;
+        }
         if($cp == null){
             return response()->json(['message' => 'your cart dosen\'t contain this product'] , 400);
         }

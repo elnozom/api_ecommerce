@@ -18,7 +18,10 @@ class CreateProductsTable extends Migration
             $table->string('ProductCode')->unique()->nullable();
             $table->string('ItemNameEn');
             $table->string('ItemName');
+            $table->string('ItemNameEnWhole');
+            $table->string('ItemNameWhole');
             $table->string('ItemImage');
+            $table->string('ItemImageWhole');
             $table->text('ItemDesc')->nullable();
             $table->text('ItemDescEn')->nullable();
             $table->boolean('ByWeight')->default(false);
@@ -32,6 +35,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('MinorPerMajor');
             $table->boolean('ActiveItem')->default(true);
             $table->boolean('InStock');
+            $table->tinyInteger('whole')->default(0)->comment("0 : only part , 1 : only whole , 2 both");
             $table->unsignedBigInteger('GroupCode');
             $table->foreign('GroupCode')->references('id')->on('groups');
             $table->timestamps();

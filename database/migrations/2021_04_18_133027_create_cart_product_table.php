@@ -25,9 +25,11 @@ class CreateCartProductTable extends Migration
             $table->foreign('option_id')->references('id')->on('product_options')->onDelete('set null');
             
             $table->string('image')->nullable();
+            $table->unsignedInteger('MinorPerMajor');
 
             $table->unsignedFloat('price');
             $table->unsignedFloat('qty')->default(1);
+            $table->boolean('whole')->default(false);
             //  $table->unsignedFloat('old_price')->nullable();
             $table->softDeletes();
             $table->timestamps();
